@@ -1,12 +1,15 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { Recipe } from "@/utils/types/recipe.types";
+import { IconButton } from "react-native-paper";
+import { useRecipes } from "@/context/recipesContext";
 
 interface RecipeCard {
   recipe: Recipe;
 }
 const RecipeCard = (props: RecipeCard) => {
   const { recipe } = props;
+  const { removeRecipe } = useRecipes();
   const firstIngredient = recipe.ingredients[0];
   const secondIngredient = recipe.ingredients[1];
 
@@ -34,6 +37,7 @@ const RecipeCard = (props: RecipeCard) => {
           <Text>Pas assez d'ingrédients pour superposer des images</Text>
         )}
       </View>
+      <IconButton icon="delete" onPress={() => removeRecipe(recipe.id)} />
     </>
   );
 };
