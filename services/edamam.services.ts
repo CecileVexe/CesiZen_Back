@@ -21,7 +21,7 @@ export const searchFood = async (query: string) => {
         },
       }
     );
-    console.log(response.data);
+
     return response.data;
   } catch (error) {
     console.error("Erreur lors de la récupération des données", error);
@@ -35,7 +35,6 @@ export const searchBarCode = async (code: string) => {
     Alert.alert("Erreur", "Veuillez scanner un aliment à rechercher");
     return null;
   }
-  console.log("code", code);
 
   try {
     const response = await axios.get(
@@ -48,7 +47,7 @@ export const searchBarCode = async (code: string) => {
         },
       }
     );
-    console.log("response", response.data);
+
     return response.data;
   } catch (error) {
     console.error("Erreur lors de la récupération des données", error);

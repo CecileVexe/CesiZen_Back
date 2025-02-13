@@ -37,6 +37,4 @@ export default function Layout() {
       />
     </Tabs>
   );
-
-  // return <Stack />;
 }

@@ -4,17 +4,11 @@ import { Recipe } from "@/utils/types/recipe.types";
 import { SignedIn, SignedOut, useAuth, useUser } from "@clerk/clerk-expo";
 import { Link } from "expo-router";
 import { Text, View, Button, StyleSheet, Image, FlatList } from "react-native";
-// import { Button } from "react-native-paper";
 
 export default function Page() {
   const { recipes } = useRecipes();
 
-  console.log(recipes);
-
   const renderItem = ({ item }: { item: Recipe }) => {
-    const firstIngredient = item.ingredients[0];
-    const secondIngredient = item.ingredients[1];
-
     return (
       <Link href={`/${item.id}`} style={styles.recipeContainer}>
         <RecipeCard recipe={item} />
@@ -63,7 +57,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     position: "relative",
-    height: 100, // Ajuster selon la taille que tu souhaites pour les images
+    height: 100,
     width: 100,
   },
   image: {

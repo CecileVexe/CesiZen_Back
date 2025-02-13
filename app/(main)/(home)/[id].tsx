@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     position: "relative",
-    height: 100, // Ajuster selon la taille que tu souhaites pour les images
+    height: 100,
     width: 100,
   },
   image: {

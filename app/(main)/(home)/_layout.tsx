@@ -26,6 +26,4 @@ export default function Layout() {
       />
     </Stack>
   );
-
-  // return <Stack />;
 }

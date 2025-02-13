@@ -58,24 +58,6 @@ const Camera = () => {
     }
   };
 
-  //   const savePicture = async () => {
-  //     console.log("uri", uri);
-
-  //     const filename = path.parse(uri).base;
-  //     console.log(filename);
-
-  //     try {
-  //       await FileSystem.copyAsync({
-  //         from: uri,
-  //         to: FileSystem.documentDirectory + filename,
-  //       });
-
-  //       router.back();
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   };
-
   const renderCamera = () => {
     return (
       <CameraView
@@ -86,20 +68,16 @@ const Camera = () => {
         responsiveOrientationWhenOrientationLocked
         style={{ flex: 1, height: "100%" }}
         onBarcodeScanned={(scanningResult: BarcodeScanningResult) => {
-          // Si un scan est déjà en cours, on ignore le nouveau scan
           if (isScanning) return;
 
-          // Marque le scan comme en cours
           setIsScanning(true);
 
-          // Attendre 2 secondes avant de lancer l'action
           setTimeout(() => {
             console.log("Scanned: ", scanningResult);
             scanBarCode(scanningResult.data);
 
-            // Après l'exécution, réinitialise isScanning pour permettre un nouveau scan
             setIsScanning(false);
-          }, 2000); // Délai de 2 secondes
+          }, 2000);
         }}
       >
         <View>
