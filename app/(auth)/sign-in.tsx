@@ -1,7 +1,8 @@
 import { useSignIn } from "@clerk/clerk-expo";
 import { Link, useRouter } from "expo-router";
-import { Text, TextInput, Button, View } from "react-native";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 import React from "react";
+import { Button } from "react-native-paper";
 
 export default function Page() {
   const { signIn, setActive, isLoaded } = useSignIn();
@@ -39,26 +40,47 @@ export default function Page() {
   }, [isLoaded, emailAddress, password]);
 
   return (
-    <View>
+    <View style={styles.container}>
       <TextInput
+        style={styles.input}
         autoCapitalize="none"
         value={emailAddress}
         placeholder="Enter email"
         onChangeText={(emailAddress) => setEmailAddress(emailAddress)}
       />
       <TextInput
+        style={styles.input}
         value={password}
         placeholder="Enter password"
         secureTextEntry={true}
         onChangeText={(password) => setPassword(password)}
       />
-      <Button title="Sign in" onPress={onSignInPress} />
+      <Button mode="contained" onPress={onSignInPress} style={styles.button}>
+        Sign In
+      </Button>
       <View>
         <Text>Don't have an account?</Text>
         <Link href="/sign-up">
-          <Text>Sign up</Text>
+          <Button>Sign up</Button>
         </Link>
       </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 24,
+  },
+  button: {
+    marginVertical: 16,
+  },
+  input: {
+    backgroundColor: "white",
+    marginVertical: 10,
+    borderRadius: 10,
+    paddingHorizontal: 16,
+    fontSize: 16,
+    height: 48,
+  },
+});

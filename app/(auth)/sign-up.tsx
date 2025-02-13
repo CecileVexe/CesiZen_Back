@@ -1,7 +1,8 @@
 import * as React from "react";
-import { Text, TextInput, Button, View } from "react-native";
+import { Text, TextInput, View, StyleSheet } from "react-native";
 import { useSignUp } from "@clerk/clerk-expo";
 import { useRouter } from "expo-router";
+import { Button } from "react-native-paper";
 
 export default function SignUpScreen() {
   const { isLoaded, signUp, setActive } = useSignUp();
@@ -65,36 +66,60 @@ export default function SignUpScreen() {
 
   if (pendingVerification) {
     return (
-      <>
+      <View style={styles.container}>
         <Text>Verify your email</Text>
         <TextInput
+          style={styles.input}
           value={code}
           placeholder="Enter your verification code"
           onChangeText={(code) => setCode(code)}
         />
-        <Button title="Verify" onPress={onVerifyPress} />
-      </>
+        <Button mode="contained" onPress={onVerifyPress}>
+          Vérifié
+        </Button>
+      </View>
     );
   }
 
   return (
-    <View>
+    <View style={styles.container}>
       <>
         <Text>Sign up</Text>
         <TextInput
+          style={styles.input}
           autoCapitalize="none"
           value={emailAddress}
           placeholder="Enter email"
           onChangeText={(email) => setEmailAddress(email)}
         />
         <TextInput
+          style={styles.input}
           value={password}
           placeholder="Enter password"
           secureTextEntry={true}
           onChangeText={(password) => setPassword(password)}
         />
-        <Button title="Continue" onPress={onSignUpPress} />
+        <Button mode="contained" onPress={onSignUpPress} style={styles.button}>
+          Continue
+        </Button>
       </>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 24,
+  },
+  button: {
+    marginVertical: 16,
+  },
+  input: {
+    backgroundColor: "white",
+    marginVertical: 10,
+    borderRadius: 10,
+    paddingHorizontal: 16,
+    fontSize: 16,
+    height: 48,
+  },
+});

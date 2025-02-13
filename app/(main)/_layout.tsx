@@ -1,6 +1,7 @@
 import { useAuth } from "@clerk/clerk-expo";
 import { Redirect, Tabs } from "expo-router";
 import { Stack } from "expo-router/stack";
+import { Icon } from "react-native-paper";
 
 export default function Layout() {
   const { isSignedIn } = useAuth();
@@ -15,10 +16,8 @@ export default function Layout() {
         name="(home)"
         options={{
           title: "Meals",
-
-          // tabBarIcon: ({ color }) => (
-          //   <FontAwesome size={28} name="home" color={color} />
-          // ),
+          tabBarIcon: () => <Icon size={20} source="home" />,
+          headerShown: false,
         }}
       />
       <Tabs.Screen
@@ -26,18 +25,14 @@ export default function Layout() {
         options={{
           title: "Ajouter",
           headerShown: false,
-          // tabBarIcon: ({ color }) => (
-          //   <FontAwesome size={28} name="cog" color={color} />
-          // ),
+          tabBarIcon: () => <Icon size={20} source="plus-box" />,
         }}
       />
       <Tabs.Screen
         name="account"
         options={{
           title: "Profil",
-          // tabBarIcon: ({ color }) => (
-          //   <FontAwesome size={28} name="home" color={color} />
-          // ),
+          tabBarIcon: () => <Icon size={20} source="account" />,
         }}
       />
     </Tabs>

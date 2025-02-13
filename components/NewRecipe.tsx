@@ -29,7 +29,6 @@ const NewRecipe = (props: NewRecipeProps) => {
           Chercher ou Scanner un ingrédient pour créer votre recette
         </Text>
       )}
-      <Button>Ajouter la recette</Button>
     </View>
   );
 };

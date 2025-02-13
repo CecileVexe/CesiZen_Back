@@ -8,11 +8,11 @@ const Account = () => {
   const { user } = useUser();
 
   return (
-    <View>
+    <View style={styles.container}>
       <Text>
         Email: {user?.primaryEmailAddress?.emailAddress ?? "Non disponible"}
       </Text>
-      <Button mode="contained" onPress={() => signOut()}>
+      <Button mode="contained" onPress={() => signOut()} style={styles.button}>
         Se déconnecter
       </Button>
     </View>
@@ -21,4 +21,13 @@ const Account = () => {
 
 export default Account;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    padding: 24,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  button: {
+    marginTop: 16,
+  },
+});

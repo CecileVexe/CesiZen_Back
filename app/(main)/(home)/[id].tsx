@@ -22,7 +22,16 @@ const MealDetail = () => {
     <View>
       {recipe && (
         <>
-          <RecipeCard recipe={recipe} />
+          <View
+            style={{
+              marginBottom: 20,
+              borderBottomWidth: 1,
+              borderBottomColor: "#ddd",
+              paddingBottom: 15,
+            }}
+          >
+            <RecipeCard recipe={recipe} />
+          </View>
           <IngredientsList data={recipe?.ingredients} />
         </>
       )}
@@ -32,4 +41,44 @@ const MealDetail = () => {
 
 export default MealDetail;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 10,
+    backgroundColor: "#fff",
+  },
+  header: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
+  },
+  recipeContainer: {
+    marginBottom: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ddd",
+    paddingBottom: 15,
+  },
+  recipeTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  overlayContainer: {
+    marginTop: 10,
+  },
+  imageContainer: {
+    position: "relative",
+    height: 100, // Ajuster selon la taille que tu souhaites pour les images
+    width: 100,
+  },
+  image: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    height: 100,
+    width: 100,
+    borderRadius: 8,
+  },
+  imageOverlay: {
+    opacity: 0.8,
+  },
+});
