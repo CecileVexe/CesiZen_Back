@@ -13,6 +13,8 @@ interface RecipesContextType {
   addToRecipes: (newRecipe: Recipe) => void;
   removeRecipe: (id: string) => void;
   getRecipeById: (recipeId: string) => Recipe | null;
+  newRecipe: Food[];
+  addFoodToRecipe: (food: Food) => void;
 }
 
 const RecipesContext = createContext<RecipesContextType | undefined>(undefined);
@@ -23,6 +25,11 @@ interface RecipesProviderProps {
 
 export const RecipesProvider = ({ children }: RecipesProviderProps) => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [newRecipe, setNewRecipe] = useState<Food[]>([]);
+
+  const addFoodToRecipe = (food: Food) => {
+    setNewRecipe([...newRecipe, food]);
+  };
 
   const addToRecipes = (newRecipe: Recipe) => {
     setRecipes((prevRecipes) => [...prevRecipes, newRecipe]);
@@ -35,7 +42,6 @@ export const RecipesProvider = ({ children }: RecipesProviderProps) => {
   };
 
   const getRecipeById = (recipeId: string) => {
-    console.log(recipeId);
     const recipe = recipes.find((recipe) => recipe.id === recipeId);
     if (recipe === undefined) {
       alert("Recette introuvable");
@@ -47,7 +53,14 @@ export const RecipesProvider = ({ children }: RecipesProviderProps) => {
 
   return (
     <RecipesContext.Provider
-      value={{ recipes, addToRecipes, removeRecipe, getRecipeById }}
+      value={{
+        recipes,
+        addToRecipes,
+        removeRecipe,
+        getRecipeById,
+        newRecipe,
+        addFoodToRecipe,
+      }}
     >
       {children}
     </RecipesContext.Provider>

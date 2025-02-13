@@ -17,6 +17,7 @@ function AddLayout() {
   return (
     <Stack>
       <Stack.Screen name="add" options={{ headerShown: false }}></Stack.Screen>
+      <Stack.Screen name="camera" options={{ title: "Caméra" }}></Stack.Screen>
     </Stack>
   );
 }

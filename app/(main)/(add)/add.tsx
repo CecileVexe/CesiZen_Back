@@ -10,11 +10,13 @@ import { TextInput, Button } from "react-native-paper";
 import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
 import { roundDecimal } from "@/utils/roundDecimal";
+import { useRouter } from "expo-router";
 
 const AddFoodScreen = () => {
   const [query, setQuery] = useState("");
   const [food, setFood] = useState<FoodResponse | undefined>(undefined);
-  const [newRecipe, setNewRecipe] = useState<Array<Food>>([]);
+  const { addFoodToRecipe, newRecipe } = useRecipes();
+  const router = useRouter();
 
   const getQueryResults = async () => {
     const results = await searchFood(query);
@@ -53,7 +55,7 @@ const AddFoodScreen = () => {
   };
 
   const addFood = (food: Food) => {
-    setNewRecipe([...newRecipe, food]);
+    addFoodToRecipe(food);
     setQuery("");
     setFood(undefined);
   };
@@ -76,7 +78,7 @@ const AddFoodScreen = () => {
       </Button>
       <Button
         mode="contained"
-        onPress={() => Alert.alert("Scan en cours...")}
+        onPress={() => router.push("/camera")}
         style={styles.scanButton}
       >
         Scan 📸
