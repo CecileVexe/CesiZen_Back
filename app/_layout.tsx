@@ -12,6 +12,7 @@ import "react-native-reanimated";
 import { useColorScheme } from "@/components/useColorScheme";
 import { ClerkLoaded, ClerkProvider } from "@clerk/clerk-expo";
 import { tokenCache } from "@/cache";
+import { SafeAreaView } from "react-native";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -59,7 +60,9 @@ function RootLayoutNav() {
     // <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
     <ClerkProvider tokenCache={tokenCache} publishableKey={publishableKey}>
       <ClerkLoaded>
-        <Slot />
+        <SafeAreaView style={{ flex: 1 }}>
+          <Slot />
+        </SafeAreaView>
       </ClerkLoaded>
     </ClerkProvider>
     // </ThemeProvider>

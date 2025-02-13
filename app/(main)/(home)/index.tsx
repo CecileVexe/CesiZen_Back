@@ -9,7 +9,7 @@ export default function Page() {
 
   return (
     <View>
-      <Button title="signout" onPress={() => signOut()} />
+      <Text>Meals</Text>
     </View>
   );
 }
