@@ -53,7 +53,6 @@ const AddFoodScreen = () => {
   };
 
   const addFood = (food: Food) => {
-    Alert.alert("Ajout", `Ajout du plat : ${food.label}`);
     setNewRecipe([...newRecipe, food]);
     setQuery("");
     setFood(undefined);

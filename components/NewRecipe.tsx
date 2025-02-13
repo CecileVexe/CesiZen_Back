@@ -4,6 +4,7 @@ import { Text, Card, Button } from "react-native-paper";
 import { Food } from "@/utils/types/food.types";
 import { Recipe } from "@/utils/types/recipe.types";
 import { useRecipes } from "@/context/recipesContext";
+import IngredientsList from "./IngredientsList";
 
 interface NewRecipeProps {
   newRecipe: Food[];
@@ -18,27 +19,7 @@ const NewRecipe = (props: NewRecipeProps) => {
     <View style={styles.container}>
       {newRecipe.length > 0 ? (
         <>
-          <FlatList
-            data={newRecipe}
-            renderItem={({ item }) => (
-              <View style={styles.itemContainer}>
-                <Image source={{ uri: item.image }} style={styles.image} />
-                <View style={styles.textContainer}>
-                  <Text style={styles.label}>{item.label}</Text>
-                  <Text style={styles.nutrientText}>
-                    Protein: {item.nutrients.PROCNT} g
-                  </Text>
-                  <Text style={styles.nutrientText}>
-                    Fat: {item.nutrients.FAT} g
-                  </Text>
-                  <Text style={styles.nutrientText}>
-                    Carbs: {item.nutrients.CHOCDF} g
-                  </Text>
-                </View>
-              </View>
-            )}
-            keyExtractor={(item) => item.foodId}
-          />
+          <IngredientsList data={newRecipe} />
           <Button onPress={() => addToRecipes(createRecipe(newRecipe))}>
             Créer une recette
           </Button>

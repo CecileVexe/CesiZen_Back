@@ -1,3 +1,4 @@
+import RecipeCard from "@/components/RecipeCard";
 import { useRecipes } from "@/context/recipesContext";
 import { Recipe } from "@/utils/types/recipe.types";
 import { SignedIn, SignedOut, useAuth, useUser } from "@clerk/clerk-expo";
@@ -15,30 +16,9 @@ export default function Page() {
     const secondIngredient = item.ingredients[1];
 
     return (
-      <View style={styles.recipeContainer}>
-        <Text>Nombre d'ingrédients : {item.ingredientNumber}</Text>
-        <Text>Calories : {item.kcal}</Text>
-        <Text>Protéines : {item.proteins}g</Text>
-        <Text>Graisses : {item.fat}g</Text>
-        <Text>Glucides : {item.carbs}g</Text>
-
-        <View style={styles.overlayContainer}>
-          {firstIngredient && secondIngredient ? (
-            <View style={styles.imageContainer}>
-              <Image
-                source={{ uri: firstIngredient.image }}
-                style={[styles.image, styles.imageOverlay]}
-              />
-              <Image
-                source={{ uri: secondIngredient.image }}
-                style={[styles.image, styles.imageOverlay]}
-              />
-            </View>
-          ) : (
-            <Text>Pas assez d'ingrédients pour superposer des images</Text>
-          )}
-        </View>
-      </View>
+      <Link href={`/${item.id}`} style={styles.recipeContainer}>
+        <RecipeCard recipe={item} />
+      </Link>
     );
   };
 

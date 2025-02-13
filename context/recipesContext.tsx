@@ -12,6 +12,7 @@ interface RecipesContextType {
   recipes: Recipe[];
   addToRecipes: (newRecipe: Recipe) => void;
   removeRecipe: (id: string) => void;
+  getRecipeById: (recipeId: string) => Recipe | null;
 }
 
 const RecipesContext = createContext<RecipesContextType | undefined>(undefined);
@@ -33,8 +34,21 @@ export const RecipesProvider = ({ children }: RecipesProviderProps) => {
     );
   };
 
+  const getRecipeById = (recipeId: string) => {
+    console.log(recipeId);
+    const recipe = recipes.find((recipe) => recipe.id === recipeId);
+    if (recipe === undefined) {
+      alert("Recette introuvable");
+      return null;
+    } else {
+      return recipe;
+    }
+  };
+
   return (
-    <RecipesContext.Provider value={{ recipes, addToRecipes, removeRecipe }}>
+    <RecipesContext.Provider
+      value={{ recipes, addToRecipes, removeRecipe, getRecipeById }}
+    >
       {children}
     </RecipesContext.Provider>
   );
