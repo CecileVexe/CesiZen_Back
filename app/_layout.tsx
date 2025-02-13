@@ -13,6 +13,7 @@ import { useColorScheme } from "@/components/useColorScheme";
 import { ClerkLoaded, ClerkProvider } from "@clerk/clerk-expo";
 import { tokenCache } from "@/cache";
 import { SafeAreaView } from "react-native";
+import { RecipesProvider } from "@/context/recipesContext";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -60,9 +61,11 @@ function RootLayoutNav() {
     // <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
     <ClerkProvider tokenCache={tokenCache} publishableKey={publishableKey}>
       <ClerkLoaded>
-        <SafeAreaView style={{ flex: 1 }}>
-          <Slot />
-        </SafeAreaView>
+        <RecipesProvider>
+          <SafeAreaView style={{ flex: 1 }}>
+            <Slot />
+          </SafeAreaView>
+        </RecipesProvider>
       </ClerkLoaded>
     </ClerkProvider>
     // </ThemeProvider>

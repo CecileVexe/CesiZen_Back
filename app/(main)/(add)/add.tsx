@@ -1,10 +1,15 @@
 import NewRecipe from "@/components/NewRecipe";
 import SearchResults from "@/components/SearchResults";
+import { useRecipes } from "@/context/recipesContext";
 import { searchFood } from "@/services/edamam.services";
 import { Food, FoodResponse } from "@/utils/types/food.types";
+import { Recipe } from "@/utils/types/recipe.types";
 import React, { useState } from "react";
 import { View, StyleSheet, Alert, Text } from "react-native";
 import { TextInput, Button } from "react-native-paper";
+import "react-native-get-random-values";
+import { v4 as uuidv4 } from "uuid";
+import { roundDecimal } from "@/utils/roundDecimal";
 
 const AddFoodScreen = () => {
   const [query, setQuery] = useState("");
@@ -16,14 +21,43 @@ const AddFoodScreen = () => {
     setFood(results);
   };
 
+  const createRecipe = (newRecipe: Food[]): Recipe => {
+    const kcal = newRecipe.reduce(
+      (total, food) => total + food.nutrients.ENERC_KCAL,
+      0
+    );
+    const proteins = newRecipe.reduce(
+      (total, food) => total + food.nutrients.PROCNT,
+      0
+    );
+    const carbs = newRecipe.reduce(
+      (total, food) => total + food.nutrients.CHOCDF,
+      0
+    );
+    const fat = newRecipe.reduce(
+      (total, food) => total + food.nutrients.FAT,
+      0
+    );
+
+    const myuuid = uuidv4();
+
+    return {
+      id: myuuid,
+      ingredients: newRecipe,
+      ingredientNumber: newRecipe.length,
+      kcal: roundDecimal(kcal),
+      proteins: roundDecimal(proteins),
+      carbs: roundDecimal(carbs),
+      fat: roundDecimal(fat),
+    };
+  };
+
   const addFood = (food: Food) => {
     Alert.alert("Ajout", `Ajout du plat : ${food.label}`);
     setNewRecipe([...newRecipe, food]);
     setQuery("");
     setFood(undefined);
   };
-
-  console.log(newRecipe);
 
   return (
     <View style={styles.container}>
@@ -51,7 +85,9 @@ const AddFoodScreen = () => {
       {food ? (
         <SearchResults results={food} addFood={addFood} />
       ) : (
-        <NewRecipe newRecipe={newRecipe} />
+        newRecipe && (
+          <NewRecipe newRecipe={newRecipe} createRecipe={createRecipe} />
+        )
       )}
     </View>
   );
