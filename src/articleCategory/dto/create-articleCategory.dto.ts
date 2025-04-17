@@ -1,9 +1,8 @@
 import { IsNotEmpty } from 'class-validator';
 
-export class CreateMessageDto {
+export class CreateArticleCategoryDto {
   @IsNotEmpty()
-  title: string;
+  name: string;
   @IsNotEmpty()
   description: string;
-  UserId: string;
 }

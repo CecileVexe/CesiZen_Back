@@ -1,14 +1,14 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { CreateMessageDto } from './create-message.dto';
 import { IsNotEmpty, IsOptional } from 'class-validator';
+import { CreateArticleCategoryDto } from './create-articleCategory.dto';
 
-export class UpdateMessageDto extends PartialType(CreateMessageDto) {
+export class UpdateArticleCategoryDto extends PartialType(
+  CreateArticleCategoryDto,
+) {
   @IsNotEmpty()
   @IsOptional()
-  title: string;
+  name: string;
   @IsNotEmpty()
   @IsOptional()
   description: string;
-  @IsOptional()
-  UserId: string;
 }

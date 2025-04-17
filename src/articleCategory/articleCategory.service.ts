@@ -5,16 +5,16 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateCategoryDto } from './dto/create-category.dto';
-import { UpdateCategoryDto } from './dto/update-category.dto';
+import { CreateArticleCategoryDto } from './dto/create-articleCategory.dto';
+import { UpdateArticleCategoryDto } from './dto/update-articleCategory.dto';
 import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class CategoryService {
   constructor(private prisma: PrismaService) {}
-  async create(createCategoryDto: CreateCategoryDto) {
+  async create(createCategoryDto: CreateArticleCategoryDto) {
     try {
-      const category = await this.prisma.category.create({
+      const articleCategory = await this.prisma.articleCategory.create({
         data: createCategoryDto,
         select: {
           id: true,
@@ -23,13 +23,13 @@ export class CategoryService {
         },
       });
 
-      if (!category) {
+      if (!articleCategory) {
         throw new InternalServerErrorException(
           `Une erreur est survenue lors de la création du catégorie`,
         );
       }
 
-      return { data: category, message: 'Catégorie créé avec succès' };
+      return { data: articleCategory, message: 'Catégorie créé avec succès' };
     } catch (error) {
       if (error instanceof InternalServerErrorException) {
         throw error;
@@ -48,14 +48,14 @@ export class CategoryService {
 
   async findAll() {
     try {
-      const categories = await this.prisma.category.findMany({
+      const categories = await this.prisma.articleCategory.findMany({
         select: { id: true, name: true, description: true },
       });
 
       if (!categories || categories.length === 0) {
         throw new NotFoundException('Aucun catégorie trouvé');
       }
-      const totalCategories = await this.prisma.category.count();
+      const totalCategories = await this.prisma.articleCategory.count();
 
       return {
         data: categories,
@@ -75,16 +75,19 @@ export class CategoryService {
 
   async findOne(id: string) {
     try {
-      const category = await this.prisma.category.findUnique({
+      const articleCategory = await this.prisma.articleCategory.findUnique({
         where: { id: id },
         select: { id: true, name: true, description: true },
       });
 
-      if (!category) {
+      if (!articleCategory) {
         throw new NotFoundException('Catégorie non trouvé');
       }
 
-      return { data: category, message: 'Catégorie récupéré avec succès' };
+      return {
+        data: articleCategory,
+        message: 'Catégorie récupéré avec succès',
+      };
     } catch (error) {
       if (error instanceof NotFoundException) {
         throw error;
@@ -96,19 +99,22 @@ export class CategoryService {
     }
   }
 
-  async update(id: string, updateCategoryDto: UpdateCategoryDto) {
+  async update(id: string, updateCategoryDto: UpdateArticleCategoryDto) {
     try {
-      const category = await this.prisma.category.update({
+      const articleCategory = await this.prisma.articleCategory.update({
         data: updateCategoryDto,
         where: { id: id },
         select: { id: true, name: true, description: true },
       });
 
-      if (!category) {
+      if (!articleCategory) {
         throw new NotFoundException('Catégorie non trouvé pour la mise à jour');
       }
 
-      return { data: category, message: 'Catégorie mis à jour avec succès' };
+      return {
+        data: articleCategory,
+        message: 'Catégorie mis à jour avec succès',
+      };
     } catch (error) {
       if (error instanceof NotFoundException) {
         throw error;
@@ -125,14 +131,14 @@ export class CategoryService {
 
   async remove(id: string) {
     try {
-      const category = await this.prisma.category.findUnique({
+      const articleCategory = await this.prisma.articleCategory.findUnique({
         where: { id: id },
       });
-      if (!category) {
+      if (!articleCategory) {
         throw new NotFoundException('Catégorie non trouvé');
       }
 
-      await this.prisma.category.delete({ where: { id: id } });
+      await this.prisma.articleCategory.delete({ where: { id: id } });
       return { message: 'Catégorie supprimé avec succès' };
     } catch (error) {
       if (error instanceof NotFoundException) {

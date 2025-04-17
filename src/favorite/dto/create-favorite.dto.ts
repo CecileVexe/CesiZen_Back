@@ -1,4 +1,4 @@
 export class CreateFavoriteDto {
-  UserId: string;
-  ArticleId: string;
+  userId: string;
+  articleId: string;
 }
