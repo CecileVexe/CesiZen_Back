@@ -5,6 +5,7 @@ import {
   Article as ArticleModel,
   Image as ImageModel,
   ArticleCategory as ArticleCategoryModel,
+  EmotionCategory as EmotionCategoryModel,
 } from '@prisma/client';
 
 export interface UserType
@@ -32,6 +33,11 @@ export interface ArticleType
 export type CategoryType = Omit<
   ArticleCategoryModel,
   'createdAt' | 'updatedAt' | 'Article'
+>;
+
+export type EmotionCategoryType = Omit<
+  EmotionCategoryModel,
+  'createdAt' | 'updatedAt' | 'emotions'
 >;
 
 export type FavoriteType = Omit<
