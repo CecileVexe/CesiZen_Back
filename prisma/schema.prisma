@@ -14,7 +14,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Citizen {
+model User {
   id    String  @id @default(uuid())
   clerkId String @unique
   email String  @unique 
@@ -24,117 +24,96 @@ model Citizen {
   roleId String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
-  comment Comment[]
-  messages Message[]
-  progression Progression[]
-  favorites Favorite[]
+  journals   EmotionalJournal[]
+  favorites  Favorite[]
 }
 
 model Role {
   id  String  @id @default(uuid())
   name String @unique
-  citizen Citizen[]
+  user User[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
 }
 
 
-model Ressource {
+model Article {
   id             String   @id @default(uuid())
   title          String
-  description    String
-  maxParticipant Int?     
-  nbParticipant  Int?     
-  deadLine       DateTime?
-  category       Category @relation(fields: [categoryId], references: [id])
-  categoryId     String
-  file           File?    @relation(fields: [fileId], references: [id])
-  fileId         String?
+  description    String 
+  category       ArticleCategory @relation(fields: [categoryId], references: [id])
+  categoryId     String  
   banner         Image?   @relation(fields: [bannerId], references: [id])
   bannerId       String?
-  step           Step[]
   favorites      Favorite[]
-  comment        Comment[]
-  isValidate     Boolean
-  status         String
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 }
 
-model Category {
-  id  String  @id @default(uuid())
-  name String @unique
-  description String 
-  ressources Ressource[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-}
-
-model File {
-  id        String    @id @default(uuid())
-  path      Bytes
-  ressources Ressource[]
+model ArticleCategory {
+  id String   @id @default(uuid())
+  name                String   @db.VarChar(150)
+  description         String   @db.VarChar(150)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  articles            Article[]
 }
 
 model Image {
   id        String    @id @default(uuid())
   url       Bytes
-  ressources Ressource[]
-}
-
-model Comment {
-  id  String  @id @default(uuid())
-  title String
-  description String
-  citizen Citizen @relation(fields: [citizenId], references: [id])
-  citizenId String
-  ressource Ressource @relation(fields:[ressourceId], references :[id])
-  ressourceId String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-}
-
-model Step {
-  id  String  @id @default(uuid())
-  title String
-  description String
-  order Int
-  ressource Ressource @relation(fields: [ressourceId], references: [id])
-  ressourceId String
-  progression Progression[]
-}
-
-model Progression {
-  id  String  @id @default(uuid())
-  completed Boolean @default(false)
-  dateCompleted  DateTime?
-  citizen Citizen @relation(fields: [citizenId], references: [id])
-  citizenId String
-  step Step @relation(fields:[stepId], references : [id])
-  stepId String
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  articles Article[]
 }
 
 model Favorite {
   id String  @id @default(uuid())
-  citizen Citizen @relation(fields: [citizenId], references: [id])
-  citizenId String
-  ressource Ressource @relation(fields: [ressourceId], references: [id])
-  ressourceId String
+  user User @relation(fields: [userId], references: [id])
+  userId String
+  article Article @relation(fields: [articleId], references: [id])
+  articleId String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  @@unique([citizenId, ressourceId])
+  @@unique([userId, articleId])
 }
 
+model EmotionCategory {
+  id String   @id @default(uuid())
+  name                String   @db.VarChar(150)
+  color               String   @db.VarChar(150)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  emotions            Emotion[]
+}
 
-model Message {
-  id  String  @id @default(uuid())
-  title String
-  description String
-  citizen Citizen @relation(fields: [citizenId], references: [id])
-  citizenId String
+model EmotionalJournal {
+  id String   @id @default(uuid())
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+  user       User  @relation(fields: [userId], references: [id])
+  entries    JournalEntry[]
+}
+
+model Emotion {
+  id          String   @id @default(uuid())
+  name                String   @db.VarChar(150)
+  color               String   @db.VarChar(150)
+  smiley              String   @db.VarChar(150)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  emotionCategoryId String
+  category            EmotionCategory @relation(fields: [emotionCategoryId], references: [id])
+  entries             JournalEntry[]
+}
+
+model JournalEntry {
+  id    String   @id @default(uuid())
+  description String   @db.Text
+  date       DateTime @db.Date
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  emotionId  String
+  emotion     Emotion  @relation(fields: [emotionId], references: [id])
+  journalId  String
+  journal     EmotionalJournal @relation(fields: [journalId], references: [id])
 }

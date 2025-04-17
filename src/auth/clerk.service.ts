@@ -6,26 +6,26 @@ import {
 } from '@nestjs/common';
 import { clerkClient } from '@clerk/clerk-sdk-node';
 import {
-  CreateCitizenDto,
-  CreateCitizenwithClerkDTo,
-} from 'src/citizen/dto/create-citizen.dto';
+  CreateUserDto,
+  CreateUserwithClerkDTo,
+} from 'src/user/dto/create-user.dto';
 import {
-  UpdateCitizenCredentialsDto,
-  UpdateCitizenDto,
-} from 'src/citizen/dto/update-citizen.dto';
+  UpdateUserCredentialsDto,
+  UpdateUserDto,
+} from 'src/user/dto/update-user.dto';
 
 @Injectable()
 export class ClerkService {
   private readonly clerkApiUrl = 'https://api.clerk.com/v1/users';
   private readonly clerkSecretKey = process.env.CLERK_SECRET_KEY;
 
-  async createClerkUser(citizenData: CreateCitizenDto) {
+  async createClerkUser(UserData: CreateUserDto) {
     try {
       const response = await clerkClient.users.createUser({
-        firstName: citizenData.name,
-        lastName: citizenData.surname,
-        emailAddress: [citizenData.email],
-        password: citizenData.password,
+        firstName: UserData.name,
+        lastName: UserData.surname,
+        emailAddress: [UserData.email],
+        password: UserData.password,
       });
       return response;
     } catch (error) {
@@ -41,11 +41,11 @@ export class ClerkService {
     }
   }
 
-  async updateClerkUser(clerkId: string, citizenData: UpdateCitizenDto) {
+  async updateClerkUser(clerkId: string, UserData: UpdateUserDto) {
     try {
       const response = await clerkClient.users.updateUser(clerkId, {
-        firstName: citizenData.name,
-        lastName: citizenData.surname,
+        firstName: UserData.name,
+        lastName: UserData.surname,
       });
       return response;
     } catch (error) {
@@ -58,11 +58,11 @@ export class ClerkService {
 
   async updateClerkUserCredentials(
     clerkId: string,
-    citizenData: UpdateCitizenCredentialsDto,
+    UserData: UpdateUserCredentialsDto,
   ) {
     try {
       const response = await clerkClient.users.updateUser(clerkId, {
-        password: citizenData.password,
+        password: UserData.password,
       });
       return response;
     } catch (error) {
@@ -73,13 +73,13 @@ export class ClerkService {
     }
   }
 
-  async getClerkUser(citizenData: CreateCitizenwithClerkDTo) {
-    if (!citizenData.clerkId) {
+  async getClerkUser(UserData: CreateUserwithClerkDTo) {
+    if (!UserData.clerkId) {
       return undefined;
     }
 
     try {
-      const response = await clerkClient.users.getUser(citizenData.clerkId);
+      const response = await clerkClient.users.getUser(UserData.clerkId);
       return response;
     } catch (error) {
       console.error('Erreur Clerk:', error.response?.data || error.message);

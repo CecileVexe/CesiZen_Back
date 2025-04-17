@@ -1,82 +1,40 @@
 import {
   Role as RoleModel,
-  Citizen as CitizenModel,
-  Comment as CommentModel,
-  File as FileModel,
-  Ressource as ResourceModel,
-  Step as StepModel,
-  Progression as ProgressionModel,
-  Category as CategoryModel,
+  User as UserModel,
   Favorite as FavoriteModel,
-  Message as MessageModel,
+  Article as ArticleModel,
+  Image as ImageModel,
+  ArticleCategory as ArticleCategoryModel,
 } from '@prisma/client';
 
-export interface CitizenType
+export interface UserType
   extends Omit<
-    CitizenModel,
+    UserModel,
     'id' | 'password' | 'roleId' | 'createdAt' | 'updatedAt' | 'clerkId'
   > {
   role: Omit<RoleModel, 'createdAt' | 'updatedAt'>;
 }
 
-export interface RessourceType
+export interface ArticleType
   extends Omit<
-    ResourceModel,
+    ArticleModel,
     | 'id'
     | 'category'
     | 'categoryId'
     | 'createdAt'
     | 'updatedAt'
-    | 'fileId'
     | 'banner'
     | 'bannerId'
-    | 'file'
-    | 'comment'
   > {
-  file?: Omit<FileModel, 'resources'> | null;
-  step: Array<Omit<StepModel, 'ressourceId'> | null>;
-}
-
-export interface RessourceWithCommentType extends RessourceType {
-  comment: Array<RessourceComment | null>;
-}
-
-interface RessourceComment
-  extends Omit<
-    CommentModel,
-    'createdAt' | 'ressourceId' | 'citizen' | 'citizenId'
-  > {
-  citizen: Pick<CitizenModel, 'name' | 'surname'>;
-}
-
-export type FileType = Omit<FileModel, 'resources'>;
-
-export interface CommentType
-  extends Omit<CommentModel, 'citizenId' | 'createdAt'> {
-  citizen: Omit<
-    CitizenType,
-    | 'role'
-    | 'createdAt'
-    | 'updatedAt'
-    | 'password'
-    | 'roleId'
-    | 'email'
-    | 'id'
-    | 'comment'
-  >;
+  banner: Omit<ImageModel, 'id' | 'articles'> | null;
 }
 
 export type CategoryType = Omit<
-  CategoryModel,
-  'createdAt' | 'updatedAt' | 'ressource'
+  ArticleCategoryModel,
+  'createdAt' | 'updatedAt' | 'Article'
 >;
 
-export type ProgressionType = Omit<ProgressionModel, 'createdAt' | 'updatedAd'>;
-
-export type StepType = Omit<StepModel, 'id'>;
-
-export type FavoriteType = Omit<FavoriteModel, 'id' | 'createdAt'| 'updatedAt'> 
-
-export interface MessageType extends Omit<MessageModel,'id' | 'citizenId' | 'updatedAt'> {
-  citizen: Omit<CitizenType, 'role' | 'createdAt' | 'updatedAt' | 'password' | 'roleId' | 'email' | 'id' | 'roleId' | 'Comment'>;}
-
+export type FavoriteType = Omit<
+  FavoriteModel,
+  'id' | 'createdAt' | 'updatedAt'
+>;

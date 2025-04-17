@@ -5,5 +5,5 @@ export class CreateMessageDto {
   title: string;
   @IsNotEmpty()
   description: string;
-  citizenId: string;
+  UserId: string;
 }

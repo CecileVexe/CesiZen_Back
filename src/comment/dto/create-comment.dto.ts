@@ -5,6 +5,6 @@ export class CreateCommentDto {
   title: string;
   @IsNotEmpty()
   description: string;
-  citizenId: string;
-  ressourceId: string;
+  UserId: string;
+  ArticleId: string;
 }

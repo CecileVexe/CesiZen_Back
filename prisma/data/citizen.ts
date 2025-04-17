@@ -17,9 +17,9 @@ function switchRole(roles: RoleModel[]) {
  * Fonction utilitaire pour créer 10 utilisateurs.
  * @param roles - Tableau des rôles attribuable.
  */
-export async function createCitizen(roles: RoleModel[]) {
+export async function createUser(roles: RoleModel[]) {
   for (let i = 0; i < 10; i++) {
-    await prisma.citizen.create({
+    await prisma.user.create({
       data: {
         email: faker.internet.email(),
         name: faker.person.firstName(),

@@ -22,7 +22,7 @@ export class StepService {
           title: true,
           description: true,
           order: true,
-          ressourceId: true,
+          ArticleId: true,
         },
       });
 
@@ -57,7 +57,7 @@ export class StepService {
           title: true,
           description: true,
           order: true,
-          ressourceId: true,
+          ArticleId: true,
         },
       });
 
@@ -89,7 +89,7 @@ export class StepService {
           title: true,
           description: true,
           order: true,
-          ressourceId: true,
+          ArticleId: true,
         },
       });
 
@@ -119,7 +119,7 @@ export class StepService {
           title: true,
           description: true,
           order: true,
-          ressourceId: true,
+          ArticleId: true,
         },
       });
 

@@ -27,9 +27,9 @@ export class CommentController {
 
   @Get()
   findAll(
-    @Query('citizenId') citizenId: string | undefined,
+    @Query('UserId') UserId: string | undefined,
   ): Promise<ApiReturns<CommentType[] | null>> {
-    return this.commentService.findAll(citizenId);
+    return this.commentService.findAll(UserId);
   }
 
   @Get(':id')

@@ -20,7 +20,7 @@ export class MessageService {
           title: true,
           description: true,
           createdAt: true,
-          citizen: {
+          user: {
             select: {
               name: true,
               surname: true,
@@ -52,15 +52,15 @@ export class MessageService {
     }
   }
 
-  async findAll(citizenId: string | undefined) {
+  async findAll(UserId: string | undefined) {
     try {
       const Messages = await this.prisma.message.findMany({
-        where: { citizenId: citizenId },
+        where: { UserId: UserId },
         select: {
           title: true,
           description: true,
           createdAt: true,
-          citizen: {
+          user: {
             select: {
               name: true,
               surname: true,
@@ -98,7 +98,7 @@ export class MessageService {
           title: true,
           description: true,
           createdAt: true,
-          citizen: {
+          user: {
             select: {
               name: true,
               surname: true,
@@ -132,7 +132,7 @@ export class MessageService {
           title: true,
           description: true,
           createdAt: true,
-          citizen: {
+          user: {
             select: {
               name: true,
               surname: true,

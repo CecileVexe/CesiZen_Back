@@ -11,5 +11,5 @@ export class CreateStepDto {
   order: number;
 
   @IsNotEmpty()
-  ressourceId: string;
+  ArticleId: string;
 }

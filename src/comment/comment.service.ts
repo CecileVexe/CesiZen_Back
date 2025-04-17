@@ -21,8 +21,8 @@ export class CommentService {
           title: true,
           description: true,
           updatedAt: true,
-          ressourceId: true,
-          citizen: {
+          ArticleId: true,
+          user: {
             select: {
               name: true,
               surname: true,
@@ -54,17 +54,17 @@ export class CommentService {
     }
   }
 
-  async findAll(citizenId: string | undefined) {
+  async findAll(UserId: string | undefined) {
     try {
       const comments = await this.prisma.comment.findMany({
-        where: { citizenId: citizenId },
+        where: { UserId: UserId },
         select: {
           id: true,
           title: true,
           description: true,
-          ressourceId: true,
+          ArticleId: true,
           updatedAt: true,
-          citizen: {
+          user: {
             select: {
               name: true,
               surname: true,
@@ -102,9 +102,9 @@ export class CommentService {
           id: true,
           title: true,
           description: true,
-          ressourceId: true,
+          ArticleId: true,
           updatedAt: true,
-          citizen: {
+          user: {
             select: {
               name: true,
               surname: true,
@@ -138,9 +138,9 @@ export class CommentService {
           id: true,
           title: true,
           description: true,
-          ressourceId: true,
+          ArticleId: true,
           updatedAt: true,
-          citizen: {
+          user: {
             select: {
               name: true,
               surname: true,

@@ -14,11 +14,11 @@ export class ProgressionService {
   constructor(private readonly prisma: PrismaService) {}
 
   async initializeProgression(createProgressionDto: CreateProgressionDto) {
-    const { ressourceId, citizenId } = createProgressionDto;
+    const { ArticleId, UserId } = createProgressionDto;
     const initializerProgression: Array<ProgressionType> = [];
 
     const steps = await this.prisma.step.findMany({
-      where: { ressourceId },
+      where: { ArticleId },
     });
 
     if (steps.length === 0) {
@@ -26,19 +26,19 @@ export class ProgressionService {
     }
 
     const isAlreadyInAProgression = await this.prisma.progression.findFirst({
-      where: { citizenId },
+      where: { UserId },
     });
 
     if (isAlreadyInAProgression === null) {
       for (const step of steps) {
         const existingProgression = await this.prisma.progression.findFirst({
-          where: { citizenId, stepId: step.id, completed: false },
+          where: { UserId, stepId: step.id, completed: false },
         });
 
         if (!existingProgression) {
           const progression = await this.prisma.progression.create({
             data: {
-              citizenId,
+              UserId,
               stepId: step.id,
               completed: false,
             },
@@ -61,28 +61,28 @@ export class ProgressionService {
       };
     } else {
       throw new BadRequestException(
-        'Ce citoyen est déjà inscris à une ressource',
+        'Ce citoyen est déjà inscris à une Article',
       );
     }
   }
 
-  async getProgression(citizenId: string, ressourceId: string) {
-    if (!citizenId || !ressourceId) {
+  async getProgression(UserId: string, ArticleId: string) {
+    if (!UserId || !ArticleId) {
       throw new BadRequestException(
-        'Veuillez renseigner le citizen et la ressource',
+        'Veuillez renseigner le user et la Article',
       );
     }
     try {
       await this.initializeProgression({
-        citizenId,
-        ressourceId,
+        UserId,
+        ArticleId,
       });
 
       const progression = await this.prisma.progression.findMany({
         where: {
-          citizenId,
+          UserId,
           step: {
-            ressourceId,
+            ArticleId,
           },
         },
         include: {
@@ -161,18 +161,18 @@ export class ProgressionService {
     }
   }
 
-  async deleteProgression(citizenId: string, ressourceId: string) {
-    if (!citizenId || !ressourceId) {
+  async deleteProgression(UserId: string, ArticleId: string) {
+    if (!UserId || !ArticleId) {
       throw new BadRequestException(
-        'Veuillez renseigner le citizen et la ressource',
+        'Veuillez renseigner le user et la Article',
       );
     }
     try {
       const progression = await this.prisma.progression.deleteMany({
         where: {
-          citizenId,
+          UserId,
           step: {
-            ressourceId,
+            ArticleId,
           },
         },
       });
@@ -208,34 +208,34 @@ export class ProgressionService {
     return new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
   }
 
-  async deleteProgressionForExpiredRessources() {
+  async deleteProgressionForExpiredArticles() {
     const todayUTC = this.getCurrentUTCDate(); // Date du jour en UTC sans l'heure
 
     console.log(
-      'Checking for expired ressources with deadline before:',
+      'Checking for expired Articles with deadline before:',
       todayUTC,
     );
 
-    const expiredRessources = await this.prisma.ressource.findMany({
+    const expiredArticles = await this.prisma.Article.findMany({
       where: { deadLine: { lte: todayUTC } },
       select: { id: true },
     });
 
-    const ressourceIds = expiredRessources.map((r) => r.id);
+    const ArticleIds = expiredArticles.map((r) => r.id);
 
     console.log(
-      `Found ${ressourceIds.length} expired ressources to delete progressions for.`,
+      `Found ${ArticleIds.length} expired Articles to delete progressions for.`,
     );
 
-    if (ressourceIds.length > 0) {
+    if (ArticleIds.length > 0) {
       await this.prisma.progression.deleteMany({
         where: {
-          step: { ressourceId: { in: ressourceIds } },
+          step: { ArticleId: { in: ArticleIds } },
         },
       });
-      console.log(`Deleted progressions for expired ressources.`);
+      console.log(`Deleted progressions for expired Articles.`);
     } else {
-      console.log('No expired ressources found.');
+      console.log('No expired Articles found.');
     }
   }
 }

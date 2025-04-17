@@ -21,18 +21,18 @@ export class MessageController {
   constructor(private readonly MessageService: MessageService) {}
 
   @Post()
-  create(@Body() createMessageDto: CreateMessageDto) : Promise<ApiReturns<MessageType | null>> {
+  create(
+    @Body() createMessageDto: CreateMessageDto,
+  ): Promise<ApiReturns<MessageType | null>> {
     return this.MessageService.create(createMessageDto);
   }
 
   @Get()
-    findAll(
-      @Query('citizenId') citizenId: string | undefined,
-    ): Promise<ApiReturns<MessageType[] | null>> {
-      return this.MessageService.findAll(
-        citizenId
-      );
-    }
+  findAll(
+    @Query('UserId') UserId: string | undefined,
+  ): Promise<ApiReturns<MessageType[] | null>> {
+    return this.MessageService.findAll(UserId);
+  }
 
   @Get(':id')
   findOne(@Param('id') id: string) {

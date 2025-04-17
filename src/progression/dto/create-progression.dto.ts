@@ -2,8 +2,8 @@ import { IsNotEmpty } from 'class-validator';
 
 export class CreateProgressionDto {
   @IsNotEmpty()
-  citizenId: string;
+  UserId: string;
 
   @IsNotEmpty()
-  ressourceId: string;
+  ArticleId: string;
 }

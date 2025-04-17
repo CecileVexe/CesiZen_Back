@@ -1,4 +1,12 @@
-import { Controller, Post, Body, Delete, Get, Param, ParseIntPipe } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { FavoriteService } from './favorite.service';
 import { CreateFavoriteDto } from './dto/create-favorite.dto';
 
@@ -6,16 +14,16 @@ import { CreateFavoriteDto } from './dto/create-favorite.dto';
 export class FavoriteController {
   constructor(private favoriteService: FavoriteService) {}
 
-  @Get('/client/:citizenId')
-  async getFavoritesForClient(@Param('citizenId') citizenId: string) {
-    return await this.favoriteService.getFavoritesForClient(citizenId);
+  @Get('/client/:UserId')
+  async getFavoritesForClient(@Param('UserId') UserId: string) {
+    return await this.favoriteService.getFavoritesForClient(UserId);
   }
 
   @Post()
   async addFavorite(@Body() createFavoriteDto: CreateFavoriteDto) {
     return await this.favoriteService.createFavorite(createFavoriteDto);
   }
-  
+
   @Delete()
   async removeFavorite(@Body() removeFavoriteDto: CreateFavoriteDto) {
     return await this.favoriteService.removeFavorite(removeFavoriteDto);

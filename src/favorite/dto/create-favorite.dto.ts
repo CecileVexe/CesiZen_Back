@@ -1,5 +1,4 @@
 export class CreateFavoriteDto {
-    citizenId: string;
-    ressourceId: string;
-  }
-  
+  UserId: string;
+  ArticleId: string;
+}
