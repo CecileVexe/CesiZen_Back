@@ -102,7 +102,7 @@ model Emotion {
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
   emotionCategoryId String
-  category            EmotionCategory @relation(fields: [emotionCategoryId], references: [id])
+  emotionCategory     EmotionCategory @relation(fields: [emotionCategoryId], references: [id])
   entries             JournalEntry[]
 }
 

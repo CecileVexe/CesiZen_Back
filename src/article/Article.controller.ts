@@ -15,7 +15,7 @@ import { ApiReturns } from 'src/utils/types/ApiReturns.type';
 import { validatePagination } from 'src/utils/pageQueryhandeler';
 import { ArticleType } from 'src/utils/types/PrismaApiModel.type';
 
-@Controller('Article')
+@Controller('article')
 export class ArticleController {
   constructor(private ArticleService: ArticleService) {}
 

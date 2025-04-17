@@ -6,6 +6,7 @@ import {
   Image as ImageModel,
   ArticleCategory as ArticleCategoryModel,
   EmotionCategory as EmotionCategoryModel,
+  Emotion as EmotionModel,
 } from '@prisma/client';
 
 export interface UserType
@@ -28,6 +29,20 @@ export interface ArticleType
     | 'bannerId'
   > {
   banner: Omit<ImageModel, 'id' | 'articles'> | null;
+}
+
+export interface EmotionType
+  extends Omit<
+    EmotionModel,
+    | 'id'
+    | 'createdAt'
+    | 'updatedAt'
+    | 'category'
+    | 'entries'
+    | 'emotionCategoryId'
+    | 'emotionCategory'
+  > {
+  emotionCategory: Omit<EmotionCategoryType, 'id' | 'color'>;
 }
 
 export type CategoryType = Omit<

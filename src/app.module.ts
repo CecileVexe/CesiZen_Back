@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { ArticleModule } from './Article/Article.module';
 import { CommentModule } from './comment/comment.module';
 import { UserModule } from './user/user.module';
+import { EmotionModule } from './emotion/emotion.module';
 import { CategoryModule } from './category/category.module';
 import { StepModule } from './step/step.module';
 import { ProgressionModule } from './progression/progression.module';
@@ -26,6 +27,7 @@ import { UserModule } from './user/user.module';
     MessageModule,
     FavoriteModule,
     UserModule,
+    EmotionModule,
   ],
   controllers: [AppController],
   providers: [AppService],
