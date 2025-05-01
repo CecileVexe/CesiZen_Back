@@ -8,7 +8,7 @@ export class FavoriteController {
 
   @Get('/client/:UserId')
   async getFavoritesForClient(@Param('UserId') UserId: string) {
-    return await this.favoriteService.getFavoritesForClient(UserId);
+    return await this.favoriteService.getFavoritesOfUser(UserId);
   }
 
   @Post()

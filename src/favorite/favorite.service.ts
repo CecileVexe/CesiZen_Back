@@ -10,7 +10,7 @@ import { CreateFavoriteDto } from './dto/create-favorite.dto';
 export class FavoriteService {
   constructor(private prisma: PrismaService) {}
 
-  async getFavoritesForClient(userId: string) {
+  async getFavoritesOfUser(userId: string) {
     const user = await this.prisma.user.findUnique({
       where: { id: String(userId) },
       include: {
@@ -23,9 +23,7 @@ export class FavoriteService {
     });
 
     if (!user) {
-      throw new NotFoundException(
-        `Le client avec l'ID ${userId} n'existe pas.`,
-      );
+      throw new NotFoundException(`Utilisateur introuvable.`);
     }
 
     return user.favorites.map((favorite) => ({
@@ -40,10 +38,9 @@ export class FavoriteService {
     const ArticleExistante = await this.prisma.article.findUnique({
       where: { id: articleId },
     });
+
     if (!ArticleExistante) {
-      throw new NotFoundException(
-        `La Article avec l'id ${articleId} n'existe pas.`,
-      );
+      throw new NotFoundException(`Article introuvable`);
     }
 
     const existingFavorite = await this.prisma.favorite.findUnique({

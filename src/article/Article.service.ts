@@ -1,13 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import {
-  Injectable,
-  NotFoundException,
-  InternalServerErrorException,
-  ForbiddenException,
   BadRequestException,
+  ForbiddenException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
-import { CreateArticleDto } from './dto/create-Article.dto';
-import { UpdateArticleDto } from './dto/update-Article.dto';
+import { CreateArticleDto } from './dto/create-article.dto';
+import { UpdateArticleDto } from './dto/update-article.dto';
 import { PrismaService } from 'src/prisma.service';
 
 @Injectable()

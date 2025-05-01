@@ -1,1 +1,1 @@
-export class user {}
+export class Article {}

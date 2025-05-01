@@ -7,12 +7,13 @@ import {
   ArticleCategory as ArticleCategoryModel,
   EmotionCategory as EmotionCategoryModel,
   Emotion as EmotionModel,
+  JournalEntry as JournalEntryModel,
 } from '@prisma/client';
 
 export interface UserType
   extends Omit<
     UserModel,
-    'id' | 'password' | 'roleId' | 'createdAt' | 'updatedAt' | 'clerkId'
+    'id' | 'roleId' | 'createdAt' | 'updatedAt' | 'clerkId'
   > {
   role: Omit<RoleModel, 'createdAt' | 'updatedAt'>;
 }
@@ -58,4 +59,9 @@ export type EmotionCategoryType = Omit<
 export type FavoriteType = Omit<
   FavoriteModel,
   'id' | 'createdAt' | 'updatedAt'
+>;
+
+export type JournalEntryType = Omit<
+  JournalEntryModel,
+  'createdAt' | 'journal' | 'journalId' | 'emotion'
 >;
