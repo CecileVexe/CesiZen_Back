@@ -13,16 +13,27 @@ import { PrismaService } from 'src/prisma.service';
 export class ArticleService {
   constructor(private prisma: PrismaService) {}
 
-  async create(createArticleDto: CreateArticleDto) {
+  async create(articleData: CreateArticleDto, banner?: Express.Multer.File) {
     try {
-      const { bannerBytes, ...articleData } = createArticleDto;
+      let bannerRecord: { id: string } | null = null;
 
-      let banner: { id: string } | null = null;
+      if (banner) {
+        if (!banner.mimetype.match(/^image\/(jpeg|png|jpg)$/)) {
+          throw new BadRequestException(
+            'Seuls les fichiers JPEG ou PNG sont autorisés.',
+          );
+        }
 
-      if (bannerBytes) {
-        banner = await this.prisma.image.create({
+        const maxSizeInBytes = 1 * 1024 * 1024; // 1 Mo
+        if (banner.size > maxSizeInBytes) {
+          throw new BadRequestException(
+            'Le fichier est trop volumineux (max 1 Mo).',
+          );
+        }
+
+        bannerRecord = await this.prisma.image.create({
           data: {
-            url: Buffer.from(bannerBytes, 'base64'),
+            url: banner.buffer,
           },
           select: { id: true },
         });
@@ -31,12 +42,12 @@ export class ArticleService {
       const article = await this.prisma.article.create({
         data: {
           ...articleData,
-          bannerId: banner?.id,
+          bannerId: bannerRecord?.id,
         },
         select: {
           id: true,
           title: true,
-          description: true,
+          content: true,
           category: {
             select: { name: true, id: true },
           },
@@ -46,13 +57,18 @@ export class ArticleService {
         },
       });
 
-      return { data: article, message: 'Articles créé avec succès' };
+      return { data: article, message: 'Article créé avec succès' };
     } catch (error) {
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
+
       if (error.code === 'P2002') {
         throw new BadRequestException(
           'Une erreur de validation est survenue (données dupliquées)',
         );
       }
+
       console.error(error);
       throw new InternalServerErrorException(
         'Une erreur inconnue est survenue',
@@ -101,7 +117,7 @@ export class ArticleService {
         select: {
           id: true,
           title: true,
-          description: true,
+          content: true,
           banner: {
             select: {
               url: true,
@@ -140,7 +156,7 @@ export class ArticleService {
         select: {
           id: true,
           title: true,
-          description: true,
+          content: true,
           banner: {
             select: { url: true },
           },
@@ -171,7 +187,7 @@ export class ArticleService {
         select: {
           id: true,
           title: true,
-          description: true,
+          content: true,
           banner: {
             select: { url: true },
           },

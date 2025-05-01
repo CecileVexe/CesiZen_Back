@@ -21,13 +21,7 @@ export interface UserType
 export interface ArticleType
   extends Omit<
     ArticleModel,
-    | 'id'
-    | 'category'
-    | 'categoryId'
-    | 'createdAt'
-    | 'updatedAt'
-    | 'banner'
-    | 'bannerId'
+    'id' | 'category' | 'categoryId' | 'createdAt' | 'updatedAt' | 'bannerId'
   > {
   banner: Omit<ImageModel, 'id' | 'articles'> | null;
 }

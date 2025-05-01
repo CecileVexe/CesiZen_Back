@@ -7,13 +7,9 @@ export class CreateArticleDto {
 
   @IsString()
   @IsNotEmpty()
-  description: string;
+  content: string;
 
   @IsUUID()
   @IsNotEmpty()
   categoryId: string;
-
-  @IsOptional()
-  @IsString()
-  bannerBytes?: string;
 }

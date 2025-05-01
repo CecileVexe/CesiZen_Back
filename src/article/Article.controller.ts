@@ -7,6 +7,9 @@ import {
   Param,
   Delete,
   Query,
+  UseInterceptors,
+  UploadedFile,
+  UseFilters,
 } from '@nestjs/common';
 import { ArticleService } from './article.service';
 import { CreateArticleDto } from './dto/create-article.dto';
@@ -14,22 +17,27 @@ import { UpdateArticleDto } from './dto/update-article.dto';
 import { ArticleType } from 'src/utils/types/PrismaApiModel.type';
 import { ApiReturns } from 'src/utils/types/ApiReturns.type';
 import { validatePagination } from 'src/utils/pageQueryhandeler';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { MulterExceptionFilter } from 'src/filter/multerException.filter';
 
 @Controller('article')
 export class ArticleController {
   constructor(private ArticleService: ArticleService) {}
 
   @Post()
+  @UseFilters(MulterExceptionFilter)
+  @UseInterceptors(FileInterceptor('banner'))
   create(
-    @Body() createArticleDto: CreateArticleDto,
+    @UploadedFile() banner: Express.Multer.File,
+    @Body() body: CreateArticleDto,
   ): Promise<ApiReturns<ArticleType | null>> {
-    return this.ArticleService.create(createArticleDto);
+    return this.ArticleService.create(body, banner);
   }
 
   @Get()
   findAll(
     @Query('page') page: string = '1',
-    @Query('perPage') perPage: string = '10',
+    @Query('perPage') perPage: string = '50',
     @Query('orderBy') orderBy: string,
     @Query('sortBy') sortBy: 'asc' | 'desc' = 'asc',
   ): Promise<ApiReturns<Array<ArticleType> | null>> {
