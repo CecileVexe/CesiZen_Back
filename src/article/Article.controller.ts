@@ -22,7 +22,7 @@ import { MulterExceptionFilter } from 'src/filter/multerException.filter';
 
 @Controller('article')
 export class ArticleController {
-  constructor(private ArticleService: ArticleService) {}
+  constructor(private articleService: ArticleService) {}
 
   @Post()
   @UseFilters(MulterExceptionFilter)
@@ -31,7 +31,7 @@ export class ArticleController {
     @UploadedFile() banner: Express.Multer.File,
     @Body() body: CreateArticleDto,
   ): Promise<ApiReturns<ArticleType | null>> {
-    return this.ArticleService.create(body, banner);
+    return this.articleService.create(body, banner);
   }
 
   @Get()
@@ -46,7 +46,7 @@ export class ArticleController {
       perPage,
     );
 
-    return this.ArticleService.findAll(
+    return this.articleService.findAll(
       pageNumber,
       perPageNumber,
       orderBy,
@@ -56,7 +56,7 @@ export class ArticleController {
 
   @Get(':id')
   findOne(@Param('id') id: string): Promise<ApiReturns<ArticleType | null>> {
-    return this.ArticleService.findOne(id);
+    return this.articleService.findOne(id);
   }
 
   @Patch(':id')
@@ -67,11 +67,11 @@ export class ArticleController {
     @UploadedFile() banner: Express.Multer.File,
     @Body() updateArticleDto: UpdateArticleDto,
   ): Promise<ApiReturns<Omit<ArticleType, 'step'>>> {
-    return this.ArticleService.update(id, updateArticleDto, banner);
+    return this.articleService.update(id, updateArticleDto, banner);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string): Promise<string | { message: string }> {
-    return this.ArticleService.remove(id);
+    return this.articleService.remove(id);
   }
 }

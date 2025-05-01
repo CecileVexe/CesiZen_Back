@@ -52,7 +52,7 @@ export class ArticleService {
             select: { name: true, id: true },
           },
           banner: {
-            select: { url: true },
+            select: { id: true, url: true },
           },
         },
       });
@@ -120,6 +120,7 @@ export class ArticleService {
           content: true,
           banner: {
             select: {
+              id: true,
               url: true,
             },
           },
@@ -158,7 +159,7 @@ export class ArticleService {
           title: true,
           content: true,
           banner: {
-            select: { url: true },
+            select: { id: true, url: true },
           },
         },
       });
@@ -234,7 +235,7 @@ export class ArticleService {
           title: true,
           content: true,
           category: { select: { name: true, id: true } },
-          banner: { select: { url: true } },
+          banner: { select: { id: true, url: true } },
         },
       });
 
@@ -260,26 +261,28 @@ export class ArticleService {
   async remove(id: string) {
     try {
       const article = await this.prisma.article.findUnique({
-        where: { id: id },
+        where: { id },
+        select: { bannerId: true },
       });
+
       if (!article) {
-        throw new NotFoundException('Articles non trouvé');
+        throw new NotFoundException('Article introuvable');
       }
 
-      await this.prisma.article.delete({ where: { id: id } });
-      return { message: 'Articles supprimé avec succès' };
+      if (article.bannerId) {
+        await this.prisma.image.delete({
+          where: { id: article.bannerId },
+        });
+      }
+
+      await this.prisma.article.delete({
+        where: { id },
+      });
+
+      return { message: 'Article supprimé avec succès' };
     } catch (error) {
-      if (error instanceof NotFoundException) {
-        throw error;
-      }
-      if (error.code === 'P2003') {
-        throw new ForbiddenException(
-          'Impossible de supprimer cette Articles : contrainte de dépendance',
-        );
-      }
-      throw new InternalServerErrorException(
-        'Une erreur inconnue est survenue lors de la suppression du citoyen',
-      );
+      console.error(error);
+      throw new InternalServerErrorException('Erreur lors de la suppression');
     }
   }
 }

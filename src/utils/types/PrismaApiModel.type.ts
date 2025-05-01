@@ -23,7 +23,7 @@ export interface ArticleType
     ArticleModel,
     'id' | 'category' | 'categoryId' | 'createdAt' | 'updatedAt' | 'bannerId'
   > {
-  banner: Omit<ImageModel, 'id' | 'articles'> | null;
+  banner: Pick<ImageModel, 'id' | 'url'> | null;
 }
 
 export interface EmotionType
