@@ -8,7 +8,6 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { RoleModule } from './role/role.module';
 import { FavoriteModule } from './favorite/favorite.module';
 import { ArticleModule } from './article/article.module';
-import { ArticleModule } from './article/article.module';
 
 @Module({
   imports: [

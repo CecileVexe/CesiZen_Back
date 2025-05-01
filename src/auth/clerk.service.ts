@@ -19,13 +19,13 @@ export class ClerkService {
   private readonly clerkApiUrl = 'https://api.clerk.com/v1/users';
   private readonly clerkSecretKey = process.env.CLERK_SECRET_KEY;
 
-  async createClerkUser(UserData: CreateUserDto) {
+  async createClerkUser(userData: CreateUserDto) {
     try {
       const response = await clerkClient.users.createUser({
-        firstName: UserData.name,
-        lastName: UserData.surname,
-        emailAddress: [UserData.email],
-        password: UserData.password,
+        firstName: userData.name,
+        lastName: userData.surname,
+        emailAddress: [userData.email],
+        password: userData.password,
       });
       return response;
     } catch (error) {
@@ -41,11 +41,11 @@ export class ClerkService {
     }
   }
 
-  async updateClerkUser(clerkId: string, UserData: UpdateUserDto) {
+  async updateClerkUser(clerkId: string, userData: UpdateUserDto) {
     try {
       const response = await clerkClient.users.updateUser(clerkId, {
-        firstName: UserData.name,
-        lastName: UserData.surname,
+        firstName: userData.name,
+        lastName: userData.surname,
       });
       return response;
     } catch (error) {
@@ -57,14 +57,29 @@ export class ClerkService {
   }
 
   async updateClerkUserCredentials(
-    clerkId: string,
-    UserData: UpdateUserCredentialsDto,
+    updateUserCredentials: UpdateUserCredentialsDto,
   ) {
     try {
-      const response = await clerkClient.users.updateUser(clerkId, {
-        password: UserData.password,
+      const isPasswordIsVerify = await clerkClient.users.verifyPassword({
+        userId: updateUserCredentials.clerkId,
+        password: updateUserCredentials.password,
       });
-      return response;
+      if (isPasswordIsVerify) {
+        const response = await clerkClient.users.updateUser(
+          updateUserCredentials.clerkId,
+          {
+            password: updateUserCredentials.password,
+          },
+        );
+        return response;
+      } else {
+        console.error(
+          'Erreur Clerk: erreur lors de la vérification des crédentials',
+        );
+        throw new InternalServerErrorException(
+          'Erreur Clerk: erreur lors de la vérification des crédentials',
+        );
+      }
     } catch (error) {
       console.error('Erreur Clerk:', error.response?.data || error.message);
       throw new InternalServerErrorException(
@@ -73,13 +88,13 @@ export class ClerkService {
     }
   }
 
-  async getClerkUser(UserData: CreateUserwithClerkDTo) {
-    if (!UserData.clerkId) {
+  async getClerkUser(userData: CreateUserwithClerkDTo) {
+    if (!userData.clerkId) {
       return undefined;
     }
 
     try {
-      const response = await clerkClient.users.getUser(UserData.clerkId);
+      const response = await clerkClient.users.getUser(userData.clerkId);
       return response;
     } catch (error) {
       console.error('Erreur Clerk:', error.response?.data || error.message);
