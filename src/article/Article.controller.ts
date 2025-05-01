@@ -60,11 +60,14 @@ export class ArticleController {
   }
 
   @Patch(':id')
+  @UseFilters(MulterExceptionFilter)
+  @UseInterceptors(FileInterceptor('banner'))
   update(
     @Param('id') id: string,
+    @UploadedFile() banner: Express.Multer.File,
     @Body() updateArticleDto: UpdateArticleDto,
   ): Promise<ApiReturns<Omit<ArticleType, 'step'>>> {
-    return this.ArticleService.update(id, updateArticleDto);
+    return this.ArticleService.update(id, updateArticleDto, banner);
   }
 
   @Delete(':id')

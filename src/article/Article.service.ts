@@ -179,36 +179,80 @@ export class ArticleService {
     }
   }
 
-  async update(id: string, updateArticleDto: UpdateArticleDto) {
+  async update(
+    id: string,
+    updateDto: UpdateArticleDto,
+    banner?: Express.Multer.File,
+  ) {
     try {
-      const article = await this.prisma.article.update({
-        data: updateArticleDto,
-        where: { id: id },
+      const existingArticle = await this.prisma.article.findUnique({
+        where: { id },
+        include: { banner: true },
+      });
+
+      if (!existingArticle) {
+        throw new NotFoundException('Article introuvable');
+      }
+
+      let newBannerId: string | undefined;
+
+      if (banner) {
+        if (!banner.mimetype.match(/^image\/(jpeg|png|jpg)$/)) {
+          throw new BadRequestException(
+            'Seuls les fichiers JPEG ou PNG sont autorisés.',
+          );
+        }
+
+        if (banner.size > 1 * 1024 * 1024) {
+          throw new BadRequestException(
+            'Le fichier est trop volumineux (max 1 Mo).',
+          );
+        }
+
+        if (existingArticle.bannerId) {
+          await this.prisma.image.delete({
+            where: { id: existingArticle.bannerId },
+          });
+        }
+
+        const newImage = await this.prisma.image.create({
+          data: { url: banner.buffer },
+          select: { id: true },
+        });
+
+        newBannerId = newImage.id;
+      }
+
+      const updatedArticle = await this.prisma.article.update({
+        where: { id },
+        data: {
+          ...updateDto,
+          bannerId: newBannerId ?? existingArticle.bannerId,
+        },
         select: {
           id: true,
           title: true,
           content: true,
-          banner: {
-            select: { url: true },
-          },
+          category: { select: { name: true, id: true } },
+          banner: { select: { url: true } },
         },
       });
 
-      if (!article) {
-        throw new NotFoundException('Article non trouvé pour la mise à jour');
-      }
-
-      return { data: article, message: 'Articles mis à jour avec succès' };
+      return {
+        data: updatedArticle,
+        message: 'Article mis à jour avec succès',
+      };
     } catch (error) {
-      if (error instanceof NotFoundException) {
+      if (
+        error instanceof BadRequestException ||
+        error instanceof NotFoundException
+      ) {
         throw error;
       }
-      if (error.code === 'P2002') {
-        throw new BadRequestException('Contrainte violée : donnée dupliquée');
-      }
+
       console.error(error);
       throw new InternalServerErrorException(
-        'Une erreur inconnue est survenue',
+        'Une erreur est survenue lors de la mise à jour.',
       );
     }
   }
