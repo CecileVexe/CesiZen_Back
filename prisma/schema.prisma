@@ -62,9 +62,10 @@ model ArticleCategory {
 model Image {
   id        String    @id @default(uuid())
   url       Bytes
-  articles Article?
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  alt       String?
+  articles  Article?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Favorite {
