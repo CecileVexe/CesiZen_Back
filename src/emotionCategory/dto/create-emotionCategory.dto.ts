@@ -7,4 +7,6 @@ export class CreateEmotionCategoryDto {
   description: string;
   @IsNotEmpty()
   color: string;
+  @IsNotEmpty()
+  smiley: string;
 }

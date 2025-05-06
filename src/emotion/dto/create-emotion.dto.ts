@@ -9,7 +9,4 @@ export class CreateEmotionDto {
 
   @IsNotEmpty()
   emotionCategoryId: string;
-
-  @IsNotEmpty()
-  smiley: string;
 }

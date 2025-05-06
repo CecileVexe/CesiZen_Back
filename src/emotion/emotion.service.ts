@@ -20,10 +20,10 @@ export class EmotionService {
           id: true,
           name: true,
           color: true,
-          smiley: true,
           emotionCategory: {
             select: {
               name: true,
+              smiley: true,
             },
           },
         },
@@ -59,10 +59,10 @@ export class EmotionService {
           id: true,
           name: true,
           color: true,
-          smiley: true,
           emotionCategory: {
             select: {
               name: true,
+              smiley: true,
             },
           },
         },
@@ -97,10 +97,10 @@ export class EmotionService {
           id: true,
           name: true,
           color: true,
-          smiley: true,
           emotionCategory: {
             select: {
               name: true,
+              smiley: true,
             },
           },
         },
@@ -134,10 +134,10 @@ export class EmotionService {
           id: true,
           name: true,
           color: true,
-          smiley: true,
           emotionCategory: {
             select: {
               name: true,
+              smiley: true,
             },
           },
         },

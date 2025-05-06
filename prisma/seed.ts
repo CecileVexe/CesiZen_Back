@@ -84,6 +84,7 @@ async function main() {
       data: {
         name: category.name,
         color: category.color,
+        smiley: category.smiley,
       },
     });
 
@@ -92,7 +93,6 @@ async function main() {
         data: {
           name: emotionName,
           color: createdCategory.color,
-          smiley: category.smiley,
           emotionCategoryId: createdCategory.id,
         },
       });

@@ -20,6 +20,7 @@ export class EmotionCategoryService {
           id: true,
           name: true,
           color: true,
+          smiley: true,
         },
       });
 
@@ -49,7 +50,7 @@ export class EmotionCategoryService {
   async findAll() {
     try {
       const categories = await this.prisma.emotionCategory.findMany({
-        select: { id: true, name: true, color: true },
+        select: { id: true, name: true, color: true, smiley: true },
       });
 
       if (!categories || categories.length === 0) {
@@ -77,7 +78,7 @@ export class EmotionCategoryService {
     try {
       const emotionCategory = await this.prisma.emotionCategory.findUnique({
         where: { id: id },
-        select: { id: true, name: true, color: true },
+        select: { id: true, name: true, color: true, smiley: true },
       });
 
       if (!emotionCategory) {
@@ -104,7 +105,7 @@ export class EmotionCategoryService {
       const emotionCategory = await this.prisma.emotionCategory.update({
         data: updateCategoryDto,
         where: { id: id },
-        select: { id: true, name: true, color: true },
+        select: { id: true, name: true, color: true, smiley: true },
       });
 
       if (!emotionCategory) {

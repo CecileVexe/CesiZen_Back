@@ -14,4 +14,7 @@ export class UpdateEmotionCategoryDto extends PartialType(
   @IsNotEmpty()
   @IsOptional()
   color: string;
+  @IsNotEmpty()
+  @IsOptional()
+  smiley: string;
 }

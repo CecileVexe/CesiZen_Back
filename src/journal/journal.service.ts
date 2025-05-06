@@ -118,12 +118,12 @@ export class JournalService {
                   id: true,
                   name: true,
                   color: true,
-                  smiley: true,
                   emotionCategory: {
                     select: {
                       id: true,
                       name: true,
                       color: true,
+                      smiley: true,
                     },
                   },
                 },
