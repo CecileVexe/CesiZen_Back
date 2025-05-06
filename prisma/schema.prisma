@@ -40,7 +40,9 @@ model Role {
 model Article {
   id             String   @id @default(uuid())
   title          String
-  content        String 
+  description    String
+  readingTime    Int
+  content        String @db.Text
   category       ArticleCategory @relation(fields: [categoryId], references: [id])
   categoryId     String  
   banner     Image?    @relation(fields: [bannerId], references: [id])
@@ -62,6 +64,7 @@ model ArticleCategory {
 model Image {
   id        String    @id @default(uuid())
   url       Bytes
+  mimetype  String
   alt       String?
   articles  Article?
   createdAt DateTime @default(now())

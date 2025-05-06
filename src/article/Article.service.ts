@@ -1,6 +1,5 @@
 import {
   BadRequestException,
-  ForbiddenException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -8,6 +7,7 @@ import {
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { PrismaService } from 'src/prisma.service';
+import { ArticleType } from 'src/utils/types/PrismaApiModel.type';
 
 @Injectable()
 export class ArticleService {
@@ -34,6 +34,7 @@ export class ArticleService {
         bannerRecord = await this.prisma.image.create({
           data: {
             url: banner.buffer,
+            mimetype: banner.mimetype,
           },
           select: { id: true },
         });
@@ -47,13 +48,13 @@ export class ArticleService {
         select: {
           id: true,
           title: true,
+          readingTime: true,
           content: true,
+          description: true,
           category: {
-            select: { name: true, id: true },
+            select: { id: true, name: true },
           },
-          banner: {
-            select: { id: true, url: true },
-          },
+          bannerId: true,
         },
       });
 
@@ -81,6 +82,7 @@ export class ArticleService {
     pageSize: number = 50,
     orderBy: string = 'createdAt',
     sortBy: string = 'desc',
+    categoryId: string | undefined = undefined,
   ) {
     try {
       if (page <= 0 || pageSize <= 0) {
@@ -108,24 +110,48 @@ export class ArticleService {
       const skip = (page - 1) * pageSize;
       const take = pageSize;
 
-      const articles = await this.prisma.article.findMany({
-        skip,
-        take,
-        orderBy: {
-          [orderBy]: sortBy,
-        },
-        select: {
-          id: true,
-          title: true,
-          content: true,
-          banner: {
-            select: {
-              id: true,
-              url: true,
-            },
+      let articles: ArticleType[] = [];
+
+      if (categoryId) {
+        articles = await this.prisma.article.findMany({
+          skip,
+          take,
+          orderBy: {
+            [orderBy]: sortBy,
           },
-        },
-      });
+          where: { categoryId },
+          select: {
+            id: true,
+            title: true,
+            readingTime: true,
+            description: true,
+            content: true,
+            category: {
+              select: { id: true, name: true },
+            },
+            bannerId: true,
+          },
+        });
+      } else {
+        articles = await this.prisma.article.findMany({
+          skip,
+          take,
+          orderBy: {
+            [orderBy]: sortBy,
+          },
+          select: {
+            id: true,
+            title: true,
+            readingTime: true,
+            content: true,
+            description: true,
+            category: {
+              select: { id: true, name: true },
+            },
+            bannerId: true,
+          },
+        });
+      }
 
       if (!articles || articles.length === 0) {
         throw new NotFoundException('Aucune Articles trouvé');
@@ -157,10 +183,13 @@ export class ArticleService {
         select: {
           id: true,
           title: true,
+          readingTime: true,
           content: true,
-          banner: {
-            select: { id: true, url: true },
+          description: true,
+          category: {
+            select: { id: true, name: true },
           },
+          bannerId: true,
         },
       });
 
@@ -217,7 +246,7 @@ export class ArticleService {
         }
 
         const newImage = await this.prisma.image.create({
-          data: { url: banner.buffer },
+          data: { url: banner.buffer, mimetype: banner.mimetype },
           select: { id: true },
         });
 
@@ -233,9 +262,13 @@ export class ArticleService {
         select: {
           id: true,
           title: true,
+          readingTime: true,
           content: true,
-          category: { select: { name: true, id: true } },
-          banner: { select: { id: true, url: true } },
+          description: true,
+          category: {
+            select: { id: true, name: true },
+          },
+          bannerId: true,
         },
       });
 

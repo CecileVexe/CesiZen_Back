@@ -39,7 +39,8 @@ export class ArticleController {
     @Query('page') page: string = '1',
     @Query('perPage') perPage: string = '50',
     @Query('orderBy') orderBy: string,
-    @Query('sortBy') sortBy: 'asc' | 'desc' = 'asc',
+    @Query('sortBy') sortBy: 'asc' | 'desc' = 'desc',
+    @Query('categoryId') categoryId: string | undefined = undefined,
   ): Promise<ApiReturns<Array<ArticleType> | null>> {
     const { page: pageNumber, perPage: perPageNumber } = validatePagination(
       page,
@@ -51,6 +52,7 @@ export class ArticleController {
       perPageNumber,
       orderBy,
       sortBy,
+      categoryId,
     );
   }
 

@@ -1,7 +1,7 @@
 export const emotionCategoriesSeedData = [
   {
     name: 'Joie',
-    color: '#4CAF50',
+    color: '#5EA885',
     emotions: [
       'Fierté',
       'Contentement',
@@ -14,7 +14,7 @@ export const emotionCategoriesSeedData = [
   },
   {
     name: 'Colère',
-    color: '#F44336',
+    color: '#E95858',
     emotions: [
       'Frustration',
       'Colère',
@@ -28,7 +28,7 @@ export const emotionCategoriesSeedData = [
   },
   {
     name: 'Peur',
-    color: '#2196F3',
+    color: '#4474C1',
     emotions: [
       'Inquiétude',
       'Peur',
@@ -42,7 +42,7 @@ export const emotionCategoriesSeedData = [
   },
   {
     name: 'Tristesse',
-    color: '#BDBDBD',
+    color: '#3897AC',
     emotions: [
       'Chagrin',
       'Tristesse',
@@ -56,7 +56,7 @@ export const emotionCategoriesSeedData = [
   },
   {
     name: 'Surprise',
-    color: '#E91E63',
+    color: '#BB3695',
     emotions: [
       'Étonnement',
       'Surprise',
@@ -70,7 +70,7 @@ export const emotionCategoriesSeedData = [
   },
   {
     name: 'Dégoût',
-    color: '#9C27B0',
+    color: '#D98447',
     emotions: [
       'Répulsion',
       'Dégoût',

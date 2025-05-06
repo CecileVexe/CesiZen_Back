@@ -9,6 +9,7 @@ import { RoleModule } from './role/role.module';
 import { FavoriteModule } from './favorite/favorite.module';
 import { ArticleModule } from './article/article.module';
 import { ArticleCategoryModule } from './articleCategory/articleCategory.module';
+import { ImageModule } from './image/image.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { ArticleCategoryModule } from './articleCategory/articleCategory.module'
     JournalEntryModule,
     ArticleModule,
     ArticleCategoryModule,
+    ImageModule,
   ],
   controllers: [AppController],
   providers: [AppService],

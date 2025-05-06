@@ -21,9 +21,9 @@ export interface UserType
 export interface ArticleType
   extends Omit<
     ArticleModel,
-    'id' | 'category' | 'categoryId' | 'createdAt' | 'updatedAt' | 'bannerId'
+    'id' | 'category' | 'categoryId' | 'createdAt' | 'updatedAt' | 'banner'
   > {
-  banner: Pick<ImageModel, 'id' | 'url'> | null;
+  category: Omit<CategoryType, 'description'>;
 }
 
 export interface EmotionType
