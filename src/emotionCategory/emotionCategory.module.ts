@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { EmotionCategoryService } from './emotionCategory.service';
-import { CategoryController } from './emotionCategory.controller';
+import { EmotionCategoryController } from './emotionCategory.controller';
 import { PrismaService } from 'src/prisma.service';
 
 @Module({
-  controllers: [CategoryController],
+  controllers: [EmotionCategoryController],
   providers: [EmotionCategoryService, PrismaService],
 })
-export class CategoryModule {}
+export class EmotionCategoryModule {}

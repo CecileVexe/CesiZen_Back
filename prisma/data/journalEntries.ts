@@ -82,7 +82,7 @@ export function generateJournalEntries(
 
     entries.push({
       description,
-      date: new Date(d), // copy date
+      date: new Date(d),
       emotionId: randomEmotion.id,
       journalId,
       createdAt: new Date(),

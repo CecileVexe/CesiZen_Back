@@ -26,10 +26,15 @@ export class FavoriteService {
       throw new NotFoundException(`Utilisateur introuvable.`);
     }
 
-    return user.favorites.map((favorite) => ({
+    const userFavorites = user.favorites.map((favorite) => ({
       id: favorite.id,
       article: favorite.article,
     }));
+
+    return {
+      data: userFavorites,
+      message: 'Favoris récupérés avec succès',
+    };
   }
 
   async createFavorite(createFavoriteDto: CreateFavoriteDto) {

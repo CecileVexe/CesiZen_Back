@@ -6,8 +6,8 @@ import { CreateFavoriteDto } from './dto/create-favorite.dto';
 export class FavoriteController {
   constructor(private favoriteService: FavoriteService) {}
 
-  @Get('/client/:userId')
-  async getFavoritesForClient(@Param('userId') userId: string) {
+  @Get('/user/:userId')
+  async getFavoritesForUser(@Param('userId') userId: string) {
     return await this.favoriteService.getFavoritesOfUser(userId);
   }
 

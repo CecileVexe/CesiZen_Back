@@ -339,7 +339,7 @@ export class UserService {
     try {
       await this.clerkService.updateClerkUserCredentials(updateUserDto);
 
-      return { message: 'Mot de passe mis à jour avec succès' };
+      return { message: 'Mot de passe mis à jour avec succès', status: 200 };
     } catch (error) {
       if (error instanceof NotFoundException) {
         throw error;

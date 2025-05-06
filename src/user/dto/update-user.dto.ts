@@ -23,5 +23,8 @@ export class UpdateUserDto {
 
 export class UpdateUserCredentialsDto extends UpdateUserDto {
   @IsNotEmpty()
+  oldPassword: string;
+
+  @IsNotEmpty()
   password: string;
 }

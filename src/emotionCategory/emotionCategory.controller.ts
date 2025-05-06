@@ -11,8 +11,8 @@ import { EmotionCategoryService } from './emotionCategory.service';
 import { CreateEmotionCategoryDto } from './dto/create-emotionCategory.dto';
 import { UpdateEmotionCategoryDto } from './dto/update-emotionCategory.dto';
 
-@Controller('emotionCategory')
-export class CategoryController {
+@Controller('emotion-category')
+export class EmotionCategoryController {
   constructor(private readonly EmotionCategory: EmotionCategoryService) {}
 
   @Post()

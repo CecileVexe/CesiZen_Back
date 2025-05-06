@@ -62,7 +62,7 @@ export class ClerkService {
     try {
       const isPasswordIsVerify = await clerkClient.users.verifyPassword({
         userId: updateUserCredentials.clerkId,
-        password: updateUserCredentials.password,
+        password: updateUserCredentials.oldPassword,
       });
       if (isPasswordIsVerify) {
         const response = await clerkClient.users.updateUser(
