@@ -251,9 +251,13 @@ export class JournalEntryService {
 
       return {
         message: 'Entrée de journal supprimée avec succès',
+        statusCode: 200,
       };
     } catch (error) {
       console.error(error);
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
       throw new InternalServerErrorException(
         'Une erreur est survenue lors de la suppression',
       );
