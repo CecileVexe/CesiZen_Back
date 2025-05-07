@@ -12,8 +12,4 @@ export class UpdateJournalEntryDto extends PartialType(CreateJournalEntryDto) {
   @IsUUID()
   @IsOptional()
   emotionId: string;
-  @IsString()
-  @IsNotEmpty()
-  @IsUUID()
-  userId: string;
 }

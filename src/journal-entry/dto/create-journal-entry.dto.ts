@@ -1,12 +1,16 @@
-import { IsDateString, IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import {
+  IsDateString,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsUUID,
+} from 'class-validator';
 
 export class CreateJournalEntryDto {
   @IsString()
   @IsNotEmpty()
+  @IsOptional()
   description: string;
-  @IsNotEmpty()
-  @IsDateString()
-  date: string;
   @IsString()
   @IsNotEmpty()
   @IsUUID()
@@ -14,5 +18,5 @@ export class CreateJournalEntryDto {
   @IsString()
   @IsNotEmpty()
   @IsUUID()
-  journalId: string;
+  userId: string;
 }

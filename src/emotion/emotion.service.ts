@@ -24,6 +24,7 @@ export class EmotionService {
             select: {
               name: true,
               smiley: true,
+              id: true,
             },
           },
         },
@@ -63,6 +64,7 @@ export class EmotionService {
             select: {
               name: true,
               smiley: true,
+              id: true,
             },
           },
         },
@@ -101,6 +103,7 @@ export class EmotionService {
             select: {
               name: true,
               smiley: true,
+              id: true,
             },
           },
         },
@@ -138,6 +141,7 @@ export class EmotionService {
             select: {
               name: true,
               smiley: true,
+              id: true,
             },
           },
         },

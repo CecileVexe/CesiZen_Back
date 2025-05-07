@@ -114,8 +114,8 @@ model Emotion {
 
 model JournalEntry {
   id    String   @id @default(uuid())
-  description String   @db.Text
-  date       DateTime @db.Date
+  description String?   @db.Text
+  date       DateTime @db.Date @default(now())
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   emotionId  String
