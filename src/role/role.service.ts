@@ -17,6 +17,7 @@ export class RoleService {
       const role = await this.prisma.role.create({
         data: createRoleDto,
         select: {
+          id: true,
           name: true,
         },
       });
@@ -48,6 +49,7 @@ export class RoleService {
     try {
       const role = await this.prisma.role.findMany({
         select: {
+          id: true,
           name: true,
         },
       });
@@ -78,6 +80,7 @@ export class RoleService {
       const role = await this.prisma.role.findUnique({
         where: { id: id },
         select: {
+          id: true,
           name: true,
         },
       });
@@ -104,6 +107,7 @@ export class RoleService {
         data: updateRoleDto,
         where: { id: id },
         select: {
+          id: true,
           name: true,
         },
       });

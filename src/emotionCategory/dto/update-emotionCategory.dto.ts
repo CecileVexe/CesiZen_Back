@@ -10,9 +10,6 @@ export class UpdateEmotionCategoryDto extends PartialType(
   name: string;
   @IsNotEmpty()
   @IsOptional()
-  description: string;
-  @IsNotEmpty()
-  @IsOptional()
   color: string;
   @IsNotEmpty()
   @IsOptional()

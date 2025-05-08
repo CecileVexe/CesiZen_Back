@@ -29,15 +29,9 @@ export interface ArticleType
 export interface EmotionType
   extends Omit<
     EmotionModel,
-    | 'id'
-    | 'createdAt'
-    | 'updatedAt'
-    | 'category'
-    | 'entries'
-    | 'emotionCategoryId'
-    | 'emotionCategory'
+    'createdAt' | 'updatedAt' | 'category' | 'entries'
   > {
-  emotionCategory: Omit<EmotionCategoryType, 'id' | 'color'>;
+  emotionCategory: EmotionCategoryType;
 }
 
 export type CategoryType = Omit<

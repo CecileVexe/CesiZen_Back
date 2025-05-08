@@ -47,6 +47,7 @@ export class UserService {
       const user = await this.prisma.user.create({
         data: newUser,
         select: {
+          id: true,
           email: true,
           name: true,
           surname: true,
@@ -116,6 +117,7 @@ export class UserService {
       const user = await this.prisma.user.create({
         data: newUser,
         select: {
+          id: true,
           email: true,
           name: true,
           surname: true,
@@ -202,6 +204,7 @@ export class UserService {
           [orderBy]: sortBy,
         },
         select: {
+          id: true,
           email: true,
           name: true,
           surname: true,
@@ -239,6 +242,7 @@ export class UserService {
       const user = await this.prisma.user.findUnique({
         where: { id: id },
         select: {
+          id: true,
           email: true,
           name: true,
           surname: true,
@@ -305,6 +309,7 @@ export class UserService {
         data: UserData,
         where: { id: id },
         select: {
+          id: true,
           email: true,
           name: true,
           surname: true,

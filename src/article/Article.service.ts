@@ -257,7 +257,7 @@ export class ArticleService {
         where: { id },
         data: {
           ...updateDto,
-          bannerId: newBannerId ?? existingArticle.bannerId,
+          bannerId: newBannerId ?? null,
         },
         select: {
           id: true,
