@@ -28,3 +28,21 @@ export class UpdateUserCredentialsDto extends UpdateUserDto {
   @IsNotEmpty()
   password: string;
 }
+
+export class UpdateUserRoleDto {
+  @IsNotEmpty()
+  @IsOptional()
+  name: string;
+
+  @IsNotEmpty()
+  @IsOptional()
+  surname: string;
+
+  @IsNotEmpty()
+  @IsOptional()
+  email: string;
+
+  @IsNotEmpty()
+  @IsOptional()
+  roleId: string;
+}

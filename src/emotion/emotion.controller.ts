@@ -12,6 +12,7 @@ import { CreateEmotionDto } from './dto/create-emotion.dto';
 import { UpdateEmotionDto } from './dto/update-emotion.dto';
 import { ApiReturns } from 'src/utils/types/ApiReturns.type';
 import { EmotionType } from 'src/utils/types/PrismaApiModel.type';
+import { Public } from 'src/decorators/public.decortator';
 
 @Controller('emotion')
 export class EmotionController {
@@ -24,11 +25,13 @@ export class EmotionController {
     return this.EmotionService.create(createEmotionDto);
   }
 
+  @Public()
   @Get()
   findAll(): Promise<ApiReturns<EmotionType[] | null>> {
     return this.EmotionService.findAll();
   }
 
+  @Public()
   @Get(':id')
   findOne(@Param('id') id: string): Promise<ApiReturns<EmotionType | null>> {
     return this.EmotionService.findOne(id);

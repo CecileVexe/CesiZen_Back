@@ -7,7 +7,11 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { CreateUserDto, CreateUserwithClerkDTo } from './dto/create-user.dto';
-import { UpdateUserCredentialsDto, UpdateUserDto } from './dto/update-user.dto';
+import {
+  UpdateUserCredentialsDto,
+  UpdateUserDto,
+  UpdateUserRoleDto,
+} from './dto/update-user.dto';
 import { PrismaService } from 'src/prisma.service';
 import { ClerkService } from 'src/auth/clerk.service';
 import { User } from '@clerk/clerk-sdk-node';
@@ -304,6 +308,45 @@ export class UserService {
       const UserData = updateUserDto;
 
       await this.clerkService.updateClerkUser(UserData.clerkId, updateUserDto);
+
+      const user = await this.prisma.user.update({
+        data: UserData,
+        where: { id: id },
+        select: {
+          id: true,
+          email: true,
+          name: true,
+          surname: true,
+          role: {
+            select: { id: true, name: true },
+          },
+        },
+      });
+
+      if (!user) {
+        throw new NotFoundException(
+          'Utilisateur non trouvé pour la mise à jour',
+        );
+      }
+
+      return { data: user, message: 'Utilisateur mis à jour avec succès' };
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      if (error.code === 'P2002') {
+        throw new BadRequestException('Contrainte violée : donnée dupliquée');
+      }
+      console.error(error);
+      throw new InternalServerErrorException(
+        'Une erreur inconnue est survenue',
+      );
+    }
+  }
+
+  async updateRole(id: string, updateUserDto: UpdateUserRoleDto) {
+    try {
+      const UserData = updateUserDto;
 
       const user = await this.prisma.user.update({
         data: UserData,
