@@ -64,7 +64,10 @@ export class ClerkService {
         userId: updateUserCredentials.clerkId,
         password: updateUserCredentials.oldPassword,
       });
-      if (isPasswordIsVerify) {
+
+      if (!isPasswordIsVerify) {
+        throw new BadRequestException('Ancien mot de passe incorrect');
+      } else {
         const response = await clerkClient.users.updateUser(
           updateUserCredentials.clerkId,
           {
@@ -72,16 +75,18 @@ export class ClerkService {
           },
         );
         return response;
-      } else {
-        console.error(
-          'Erreur Clerk: erreur lors de la vérification des crédentials',
-        );
-        throw new InternalServerErrorException(
-          'Erreur Clerk: erreur lors de la vérification des crédentials',
-        );
       }
     } catch (error) {
-      console.error('Erreur Clerk:', error.response?.data || error.message);
+      console.error(error);
+      if (error.clerkError && Array.isArray(error.errors)) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+        const messages = error.errors
+          .map((e: { message: string }) => e.message)
+          .join(', ');
+        throw new BadRequestException(messages);
+      }
+
+      console.error('Erreur Clerk:', error);
       throw new InternalServerErrorException(
         'Erreur lors de la mise à jour dans Clerk',
       );

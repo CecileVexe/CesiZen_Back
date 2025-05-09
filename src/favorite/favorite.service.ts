@@ -69,16 +69,11 @@ export class FavoriteService {
     });
   }
 
-  async removeFavorite(removeFavoriteDto: CreateFavoriteDto) {
-    const { userId, articleId } = removeFavoriteDto;
-
+  async removeFavorite(id: string) {
     try {
       return await this.prisma.favorite.delete({
         where: {
-          userId_articleId: {
-            userId: String(userId),
-            articleId: String(articleId),
-          },
+          id,
         },
       });
     } catch (error) {

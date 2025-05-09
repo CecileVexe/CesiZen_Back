@@ -16,8 +16,8 @@ export class FavoriteController {
     return await this.favoriteService.createFavorite(createFavoriteDto);
   }
 
-  @Delete()
-  async removeFavorite(@Body() removeFavoriteDto: CreateFavoriteDto) {
-    return await this.favoriteService.removeFavorite(removeFavoriteDto);
+  @Delete('/:id')
+  async removeFavorite(@Param('id') id: string) {
+    return await this.favoriteService.removeFavorite(id);
   }
 }

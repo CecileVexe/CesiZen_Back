@@ -346,12 +346,17 @@ export class UserService {
 
       return { message: 'Mot de passe mis à jour avec succès', status: 200 };
     } catch (error) {
-      if (error instanceof NotFoundException) {
+      if (
+        error instanceof NotFoundException ||
+        error instanceof BadRequestException
+      ) {
         throw error;
       }
+
       if (error.code === 'P2002') {
         throw new BadRequestException('Contrainte violée : donnée dupliquée');
       }
+
       console.error(error);
       throw new InternalServerErrorException(
         'Une erreur inconnue est survenue',
