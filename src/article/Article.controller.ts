@@ -11,9 +11,9 @@ import {
   UploadedFile,
   UseFilters,
 } from '@nestjs/common';
-import { ArticleService } from './article.service';
-import { CreateArticleDto } from './dto/create-article.dto';
-import { UpdateArticleDto } from './dto/update-article.dto';
+import { ArticleService } from './Article.service';
+import { CreateArticleDto } from './dto/create-Article.dto';
+import { UpdateArticleDto } from './dto/update-Article.dto';
 import { ArticleType } from 'src/utils/types/PrismaApiModel.type';
 import { ApiReturns } from 'src/utils/types/ApiReturns.type';
 import { validatePagination } from 'src/utils/pageQueryhandeler';
