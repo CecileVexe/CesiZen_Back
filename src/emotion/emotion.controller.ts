@@ -27,7 +27,7 @@ export class EmotionController {
 
   @Public()
   @Get()
-  findAll(): Promise<ApiReturns<EmotionType[] | null>> {
+  findAll(): Promise<ApiReturns<EmotionType[]> | null> {
     return this.EmotionService.findAll();
   }
 

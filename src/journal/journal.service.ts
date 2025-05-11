@@ -181,6 +181,13 @@ export class JournalService {
       };
     } catch (error) {
       console.error(error);
+      if (
+        error instanceof BadRequestException ||
+        error instanceof NotFoundException ||
+        error instanceof InternalServerErrorException
+      ) {
+        throw error;
+      }
       throw new InternalServerErrorException(
         'Une erreur est survenue lors de la suppression',
       );

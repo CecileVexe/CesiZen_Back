@@ -1,22 +1,36 @@
+/* eslint-disable @typescript-eslint/unbound-method */
+// app.controller.spec.ts
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 describe('AppController', () => {
   let appController: AppController;
+  let appService: AppService;
+
+  const mockAppService = {
+    getHello: jest.fn().mockReturnValue('Hello World!'),
+  };
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       controllers: [AppController],
-      providers: [AppService],
+      providers: [
+        {
+          provide: AppService,
+          useValue: mockAppService,
+        },
+      ],
     }).compile();
 
     appController = app.get<AppController>(AppController);
+    appService = app.get<AppService>(AppService);
   });
 
-  describe('root', () => {
-    it('should return "Hello World!"', () => {
+  describe('getHello', () => {
+    it('should return "Hello World!" and call AppService.getHello', () => {
       expect(appController.getHello()).toBe('Hello World!');
+      expect(appService.getHello).toHaveBeenCalled();
     });
   });
 });
