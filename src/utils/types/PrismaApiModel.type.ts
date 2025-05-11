@@ -11,10 +11,7 @@ import {
 } from '@prisma/client';
 
 export interface UserType
-  extends Omit<
-    UserModel,
-    'id' | 'roleId' | 'createdAt' | 'updatedAt' | 'clerkId'
-  > {
+  extends Omit<UserModel, 'roleId' | 'createdAt' | 'updatedAt' | 'clerkId'> {
   role: Omit<RoleModel, 'createdAt' | 'updatedAt'>;
 }
 

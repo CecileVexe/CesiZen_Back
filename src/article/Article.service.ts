@@ -316,6 +316,9 @@ export class ArticleService {
       return { message: 'Article supprimé avec succès' };
     } catch (error) {
       console.error(error);
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
       throw new InternalServerErrorException('Erreur lors de la suppression');
     }
   }
