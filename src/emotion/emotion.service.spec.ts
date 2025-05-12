@@ -1,4 +1,3 @@
-// emotion.service.spec.ts
 import { Test, TestingModule } from '@nestjs/testing';
 import { EmotionService } from './emotion.service';
 import { PrismaService } from 'src/prisma.service';

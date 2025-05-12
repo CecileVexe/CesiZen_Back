@@ -263,18 +263,12 @@ export function generateArticlesSeed(categoryIds: string[]) {
   }
 
   const articles = titlesAndContents.map((entry, i) => {
-    // const randomBannerId =
-    //   bannerIds.length > 0
-    //     ? bannerIds[Math.floor(Math.random() * bannerIds.length)]
-    //     : undefined;
-
     return {
       title: entry.title,
       content: entry.content,
       categoryId: categoryIds[i % categoryIds.length],
       description: entry.description,
       readingTime: entry.readingTime,
-      //   bannerId: randomBannerId,
       createdAt: new Date(),
       updatedAt: new Date(),
     };

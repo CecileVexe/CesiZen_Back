@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/unbound-method */
-// journal.service.spec.ts
 import { Test, TestingModule } from '@nestjs/testing';
 import { JournalService } from './journal.service';
 import { PrismaService } from 'src/prisma.service';

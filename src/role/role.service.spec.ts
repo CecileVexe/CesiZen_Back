@@ -1,4 +1,3 @@
-// role.service.spec.ts
 import { Test, TestingModule } from '@nestjs/testing';
 import { RoleService } from './role.service';
 import { PrismaService } from 'src/prisma.service';
