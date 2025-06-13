@@ -41,7 +41,7 @@ jobs:
         context : .
         push: true
         target: cesizen-backend #nom de l'image concerné dans le Dockerfile
-        tags: ghcr.io/cecilevexe/cesizen_back/cesizen_back:${{github.ref_name}} #avec le tag du nom de la branche sur laquelle on a push
+        tags: ghcr.io/cecilevexe/cesizen_back/cesizen_back:recette #avec le tag du nom de la branche sur laquelle on a push
   
   # # deploy-docker:
   # #   runs-on: ubuntu-latest
