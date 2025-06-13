@@ -27,6 +27,13 @@ jobs:
     permissions:
       contents: read
       packages: write
+    env: 
+      DATABASE_URL: "mysql://leadAdmin:leadAdminP@55w0rd@database:3306/cesizen?schema=public"
+      NEST_PUBLIC_CLERK_PUBLISHABLE_KEY: pk_test_b3JnYW5pYy1oYXdrLTE2LmNsZXJrLmFjY291bnRzLmRldiQ
+      CLERK_SECRET_KEY: sk_test_AH1fjY6ZZ880sDRZVGJFgngphpLmKr9PvY7XxedqVF
+      ENV_DATABASE: cesizen
+      ENV_USER: leadAdmin
+      ENV_PASSWORD: leadAdminP@55w0rd
     steps:
     - uses: actions/checkout@v4 #recupérer le code
     - name: Login to GitHub Container Registry
