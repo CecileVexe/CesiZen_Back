@@ -1,5 +1,7 @@
 FROM node:22.12.0-alpine AS builder
 
+LABEL org.opencontainers.image.source https://github.com/cecilevexe/cesizen_back
+
 # Create app directory
 WORKDIR /app
 
