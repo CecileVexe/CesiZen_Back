@@ -6,7 +6,7 @@
 
 */
 -- AlterTable
-ALTER TABLE `emotion` DROP COLUMN `smiley`;
+ALTER TABLE `Emotion` DROP COLUMN `smiley`;
 
 -- AlterTable
-ALTER TABLE `emotioncategory` ADD COLUMN `smiley` VARCHAR(150) NOT NULL;
+ALTER TABLE `EmotionCategory` ADD COLUMN `smiley` VARCHAR(150) NOT NULL;

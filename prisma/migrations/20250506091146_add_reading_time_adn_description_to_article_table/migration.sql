@@ -6,6 +6,6 @@
 
 */
 -- AlterTable
-ALTER TABLE `article` ADD COLUMN `description` VARCHAR(191) NOT NULL,
+ALTER TABLE `Article` ADD COLUMN `description` VARCHAR(191) NOT NULL,
     ADD COLUMN `readingTime` INTEGER NOT NULL,
     MODIFY `content` TEXT NOT NULL;
