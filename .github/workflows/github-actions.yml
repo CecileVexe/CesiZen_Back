@@ -36,6 +36,7 @@ jobs:
 
   build-push-docker :
     runs-on: ubuntu-latest
+    if: contains(github.ref, 'recette')
     permissions:
       contents: read
       packages: write
