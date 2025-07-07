@@ -10,19 +10,9 @@ jobs:
       - run: echo "Lancement des tests"
       - name: Check out repository code
         uses: actions/checkout@v4
-        
       - run: echo "Le code du dépôt a été cloné sur le serveur d'exécution."
-
-      - name: Installation du projet
-        run: npm clean-install
-
-      - name: Run tests
-        run: |
-          npx jest --coverage --coverageReporters json-summary
-
-      - name: Jest Coverage Comment
-        uses: MishaKav/jest-coverage-comment@main
-      # - run: npm run test:cov
+      - run: npm clean-install
+      - run: npm run test:cov
 
   build:
     runs-on: ubuntu-latest
