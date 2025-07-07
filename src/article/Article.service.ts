@@ -4,10 +4,11 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateArticleDto } from './dto/create-article.dto';
-import { UpdateArticleDto } from './dto/update-article.dto';
+
 import { PrismaService } from 'src/prisma.service';
 import { ArticleType } from 'src/utils/types/PrismaApiModel.type';
+import { CreateArticleDto } from './dto/create-Article.dto';
+import { UpdateArticleDto } from './dto/update-Article.dto';
 
 @Injectable()
 export class ArticleService {
@@ -315,6 +316,9 @@ export class ArticleService {
       return { message: 'Article supprimé avec succès' };
     } catch (error) {
       console.error(error);
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
       throw new InternalServerErrorException('Erreur lors de la suppression');
     }
   }

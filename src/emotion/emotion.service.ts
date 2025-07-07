@@ -40,7 +40,11 @@ export class EmotionService {
 
       return { data: emotion, message: 'Emotion créé avec succès' };
     } catch (error) {
-      if (error instanceof InternalServerErrorException) {
+      if (
+        error instanceof BadRequestException ||
+        error instanceof NotFoundException ||
+        error instanceof InternalServerErrorException
+      ) {
         throw error;
       }
       if (error.code === 'P2002') {
@@ -85,7 +89,11 @@ export class EmotionService {
         message: 'Emotions récupérés avec succès',
       };
     } catch (error) {
-      if (error instanceof NotFoundException) {
+      if (
+        error instanceof BadRequestException ||
+        error instanceof NotFoundException ||
+        error instanceof InternalServerErrorException
+      ) {
         throw error;
       }
       console.error(error);
@@ -124,7 +132,11 @@ export class EmotionService {
         message: 'Emotion récupérée avec succès',
       };
     } catch (error) {
-      if (error instanceof NotFoundException) {
+      if (
+        error instanceof BadRequestException ||
+        error instanceof NotFoundException ||
+        error instanceof InternalServerErrorException
+      ) {
         throw error;
       }
       console.error(error);
@@ -164,7 +176,11 @@ export class EmotionService {
         message: 'Emotion mis à jour avec succès',
       };
     } catch (error) {
-      if (error instanceof NotFoundException) {
+      if (
+        error instanceof BadRequestException ||
+        error instanceof NotFoundException ||
+        error instanceof InternalServerErrorException
+      ) {
         throw error;
       }
       if (error.code === 'P2002') {
@@ -189,7 +205,11 @@ export class EmotionService {
       await this.prisma.emotion.delete({ where: { id: id } });
       return { message: 'Emotion supprimée avec succès' };
     } catch (error) {
-      if (error instanceof NotFoundException) {
+      if (
+        error instanceof BadRequestException ||
+        error instanceof NotFoundException ||
+        error instanceof InternalServerErrorException
+      ) {
         throw error;
       }
       if (error.code === 'P2003') {

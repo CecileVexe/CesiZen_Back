@@ -148,6 +148,13 @@ export class JournalEntryService {
       };
     } catch (error) {
       console.error(error);
+      if (
+        error instanceof BadRequestException ||
+        error instanceof NotFoundException ||
+        error instanceof InternalServerErrorException
+      ) {
+        throw error;
+      }
       throw new InternalServerErrorException(
         'Une erreur inconnue est survenue',
       );
@@ -222,6 +229,13 @@ export class JournalEntryService {
       };
     } catch (error) {
       console.error(error);
+      if (
+        error instanceof BadRequestException ||
+        error instanceof NotFoundException ||
+        error instanceof InternalServerErrorException
+      ) {
+        throw error;
+      }
       throw new InternalServerErrorException(
         'Une erreur est survenue lors de la mise à jour',
       );
@@ -255,7 +269,11 @@ export class JournalEntryService {
       };
     } catch (error) {
       console.error(error);
-      if (error instanceof NotFoundException) {
+      if (
+        error instanceof BadRequestException ||
+        error instanceof NotFoundException ||
+        error instanceof InternalServerErrorException
+      ) {
         throw error;
       }
       throw new InternalServerErrorException(

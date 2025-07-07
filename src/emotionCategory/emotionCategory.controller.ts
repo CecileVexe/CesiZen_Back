@@ -10,6 +10,7 @@ import {
 import { EmotionCategoryService } from './emotionCategory.service';
 import { CreateEmotionCategoryDto } from './dto/create-emotionCategory.dto';
 import { UpdateEmotionCategoryDto } from './dto/update-emotionCategory.dto';
+import { Public } from 'src/decorators/public.decortator';
 
 @Controller('emotion-category')
 export class EmotionCategoryController {
@@ -20,11 +21,13 @@ export class EmotionCategoryController {
     return this.EmotionCategory.create(createEmotionCategoryDto);
   }
 
+  @Public()
   @Get()
   findAll() {
     return this.EmotionCategory.findAll();
   }
 
+  @Public()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.EmotionCategory.findOne(id);

@@ -13,6 +13,7 @@ import { ImageService } from './image.service';
 import { CreateImageDto } from './dto/create-image.dto';
 import { UpdateImageDto } from './dto/update-image.dto';
 import { Response } from 'express';
+import { Public } from 'src/decorators/public.decortator';
 
 @Controller('image')
 export class ImageController {
@@ -23,11 +24,13 @@ export class ImageController {
     return this.imageService.create(createImageDto);
   }
 
+  @Public()
   @Get()
   findAll() {
     return this.imageService.findAll();
   }
 
+  @Public()
   @Get(':id')
   async findOne(@Param('id') id: string, @Res() res: Response) {
     const image = await this.imageService.findOne(id);

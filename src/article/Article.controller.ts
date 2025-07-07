@@ -11,14 +11,15 @@ import {
   UploadedFile,
   UseFilters,
 } from '@nestjs/common';
-import { ArticleService } from './article.service';
-import { CreateArticleDto } from './dto/create-article.dto';
-import { UpdateArticleDto } from './dto/update-article.dto';
+import { ArticleService } from './Article.service';
+import { CreateArticleDto } from './dto/create-Article.dto';
+import { UpdateArticleDto } from './dto/update-Article.dto';
 import { ArticleType } from 'src/utils/types/PrismaApiModel.type';
 import { ApiReturns } from 'src/utils/types/ApiReturns.type';
 import { validatePagination } from 'src/utils/pageQueryhandeler';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { MulterExceptionFilter } from 'src/filter/multerException.filter';
+import { Public } from 'src/decorators/public.decortator';
 
 @Controller('article')
 export class ArticleController {
@@ -34,6 +35,7 @@ export class ArticleController {
     return this.articleService.create(body, banner);
   }
 
+  @Public()
   @Get()
   findAll(
     @Query('page') page: string = '1',
@@ -56,6 +58,7 @@ export class ArticleController {
     );
   }
 
+  @Public()
   @Get(':id')
   findOne(@Param('id') id: string): Promise<ApiReturns<ArticleType | null>> {
     return this.articleService.findOne(id);

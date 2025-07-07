@@ -1,23 +1,23 @@
 -- DropForeignKey
-ALTER TABLE `emotionaljournal` DROP FOREIGN KEY `EmotionalJournal_userId_fkey`;
+ALTER TABLE `EmotionalJournal` DROP FOREIGN KEY `EmotionalJournal_userId_fkey`;
 
 -- DropForeignKey
-ALTER TABLE `favorite` DROP FOREIGN KEY `Favorite_articleId_fkey`;
+ALTER TABLE `Favorite` DROP FOREIGN KEY `Favorite_articleId_fkey`;
 
 -- DropForeignKey
-ALTER TABLE `favorite` DROP FOREIGN KEY `Favorite_userId_fkey`;
+ALTER TABLE `Favorite` DROP FOREIGN KEY `Favorite_userId_fkey`;
 
 -- DropForeignKey
-ALTER TABLE `journalentry` DROP FOREIGN KEY `JournalEntry_journalId_fkey`;
+ALTER TABLE `JournalEntry` DROP FOREIGN KEY `JournalEntry_journalId_fkey`;
 
 -- DropIndex
-DROP INDEX `EmotionalJournal_userId_fkey` ON `emotionaljournal`;
+DROP INDEX `EmotionalJournal_userId_fkey` ON `EmotionalJournal`;
 
 -- DropIndex
-DROP INDEX `Favorite_articleId_fkey` ON `favorite`;
+DROP INDEX `Favorite_articleId_fkey` ON `Favorite`;
 
 -- DropIndex
-DROP INDEX `JournalEntry_journalId_fkey` ON `journalentry`;
+DROP INDEX `JournalEntry_journalId_fkey` ON `JournalEntry`;
 
 -- AddForeignKey
 ALTER TABLE `Favorite` ADD CONSTRAINT `Favorite_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

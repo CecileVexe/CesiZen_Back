@@ -5,4 +5,4 @@
 
 */
 -- AlterTable
-ALTER TABLE `image` ADD COLUMN `mimetype` VARCHAR(191) NOT NULL;
+ALTER TABLE `Image` ADD COLUMN `mimetype` VARCHAR(191) NOT NULL;

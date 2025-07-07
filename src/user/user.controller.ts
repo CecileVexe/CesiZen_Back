@@ -10,22 +10,28 @@ import {
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto, CreateUserwithClerkDTo } from './dto/create-user.dto';
-import { UpdateUserCredentialsDto, UpdateUserDto } from './dto/update-user.dto';
+import {
+  UpdateUserCredentialsDto,
+  UpdateUserDto,
+  UpdateUserRoleDto,
+} from './dto/update-user.dto';
 import { ApiReturns } from 'src/utils/types/ApiReturns.type';
 import { validatePagination } from 'src/utils/pageQueryhandeler';
 import { UserType } from 'src/utils/types/PrismaApiModel.type';
+import { Public } from 'src/decorators/public.decortator';
 
 @Controller('user')
 export class UserController {
   constructor(private UserService: UserService) {}
 
+  @Public()
   @Post('clerk')
   createWithClerk(
     @Body() createUserDto: CreateUserwithClerkDTo,
   ): Promise<ApiReturns<UserType | null>> {
     return this.UserService.createWithClerk(createUserDto);
   }
-
+  @Public()
   @Post()
   create(
     @Body() createUserDto: CreateUserDto,
@@ -59,12 +65,19 @@ export class UserController {
   findOne(@Param('id') id: string): Promise<ApiReturns<UserType | null>> {
     return this.UserService.findOne(id);
   }
-
   @Patch('/credentials')
   updateCredentials(
     @Body() updateUserDto: UpdateUserCredentialsDto,
   ): Promise<Record<'message', string>> {
     return this.UserService.updateCredentials(updateUserDto);
+  }
+
+  @Patch('/role/:id')
+  updateRole(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserRoleDto,
+  ): Promise<ApiReturns<UserType>> {
+    return this.UserService.updateRole(id, updateUserDto);
   }
 
   @Patch(':id')
