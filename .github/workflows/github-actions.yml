@@ -4,31 +4,21 @@ on:
   push:
 
 jobs:
-  test:
-    permissions:
-      checks: write
-      pull-requests: write
-      contents: write 
+  test: 
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          cache: 'npm'
-      - uses: ArtiomTr/jest-coverage-report-action@v2
-        id: coverage
-     with:
-        annotations: none
-        package-manager: npm
-        test-script: npm run test:cov
-        icons: emoji 
-    # steps:
-    #   - run: echo "Lancement des tests"
-    #   - name: Check out repository code
-    #     uses: actions/checkout@v4
-    #   - run: echo "Le code du dépôt a été cloné sur le serveur d'exécution."
-    #   - run: npm clean-install
-    #   - run: npm run test:cov
+      - run: echo "Lancement des tests"
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - run: echo "Le code du dépôt a été cloné sur le serveur d'exécution."
+      - name: Installation du projet
+      - run: npm clean-install
+      - name: Run tests
+        run: |
+          npx jest --coverage --coverageReporters json-summary
+      - name: Jest Coverage Comment
+        uses: MishaKav/jest-coverage-comment@main
+      # - run: npm run test:cov
 
   build:
     runs-on: ubuntu-latest
