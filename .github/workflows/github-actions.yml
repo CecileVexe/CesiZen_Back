@@ -14,10 +14,33 @@ jobs:
       - run: npm clean-install
       - run: npm run test:cov
 
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - run: echo "Le code du dépôt a été cloné sur le serveur d'exécution."
+      - run: npm clean-install
+      - run: echo "Lancement du lint"
+      - run: npm run lint    
+  
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - run: echo "Le code du dépôt a été cloné sur le serveur d'exécution."
+      - run: npm clean-install
+      - run: echo "Lancement de l'audit"
+      - run: npm audit
+
   build:
     runs-on: ubuntu-latest
+    if: "!contains(github.ref, 'recette')"
     needs:
     - test
+    - lint
+    - audit
     steps:
       - run: echo "Lancement des étapes de construction"
       - name: Check out repository code
@@ -49,6 +72,8 @@ jobs:
       ENV_PASSWORD: leadAdminP@55w0rd
     needs:
     - test
+    - lint
+    - audit
     steps:
     - uses: actions/checkout@v4 #recupérer le code
     - name: Login to GitHub Container Registry
@@ -64,21 +89,6 @@ jobs:
         push: true
         target: cesizen-backend #nom de l'image concerné dans le Dockerfile
         tags: ghcr.io/cecilevexe/cesizen_back/cesizen_back:recette #avec le tag du nom de la branche sur laquelle on a push
-  
-  # # deploy-docker:
-  # #   runs-on: ubuntu-latest
-  # #   needs:
-  # #     - build-push-docker
-  # #   steps:
-  # #     - uses: appleboy/ssh-action@v1
-  # #       with:
-  # #         host: ${{ secrets.EC2_HOST }}
-  # #         username: ${{ secrets.EC2_USER }}
-  # #         key: ${{ secrets.EC2_PRIVATE_KEY }}
-  # #         script: |
-  # #           cd prod
-  # #           sudo docker compose -f docker-compose.prod.yml pull
-  # #           sudo docker compose -f docker-compose.prod.yml up -d
 
   deploy-docker-on-recette:
     runs-on: ubuntu-latest
@@ -99,25 +109,3 @@ jobs:
             sudo docker compose -f docker-compose.global.yml pull
             sudo docker compose -f docker-compose.global.yml up -d
   
-  # deploy-docker-on-test:
-  #   runs-on: ubuntu-latest
-  #   if: ${{ github.ref_name == 'test' }}
-  #   environment:
-  #     name: test
-  #     url: http://ec2-23-22-102-8.compute-1.amazonaws.com/
-  #   needs:
-  #     - build-push-docker
-  #   steps:
-  #     - uses: appleboy/ssh-action@v1
-  #       with:
-  #         host: ${{ secrets.EC2_HOST }}
-  #         username: ${{ secrets.EC2_USER }}
-  #         key: ${{ secrets.EC2_PRIVATE_KEY }}
-  #         script: |
-  #           mkdir test -p
-  #           cd test
-  #           sudo docker compose -f docker-compose.test.yml pull
-  #           sudo docker compose -f docker-compose.test.yml up -d
-
-
-
