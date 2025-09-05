@@ -1,5 +1,3 @@
-// prisma/data/journalEntriesData.ts
-
 import { Emotion } from '@prisma/client';
 
 const descriptionsByEmotion: Record<string, string[]> = {
