@@ -4,7 +4,7 @@ import {
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { clerkClient } from '@clerk/clerk-sdk-node';
+import { ClerkClient, createClerkClient } from '@clerk/backend';
 import {
   CreateUserDto,
   CreateUserwithClerkDTo,
@@ -17,11 +17,22 @@ import {
 @Injectable()
 export class ClerkService {
   private readonly clerkApiUrl = 'https://api.clerk.com/v1/users';
-  private readonly clerkSecretKey = process.env.CLERK_SECRET_KEY;
+  private clerkClient?: ClerkClient;
+
+  // Client créé à la première utilisation : le .env est chargé à ce moment-là
+  // (ConfigModule côté Nest, CLI Prisma côté seed)
+  private get client(): ClerkClient {
+    if (!this.clerkClient) {
+      this.clerkClient = createClerkClient({
+        secretKey: process.env.CLERK_SECRET_KEY,
+      });
+    }
+    return this.clerkClient;
+  }
 
   async createClerkUser(userData: CreateUserDto) {
     try {
-      const response = await clerkClient.users.createUser({
+      const response = await this.client.users.createUser({
         firstName: userData.name,
         lastName: userData.surname,
         emailAddress: [userData.email],
@@ -43,7 +54,7 @@ export class ClerkService {
 
   async updateClerkUser(clerkId: string, userData: UpdateUserDto) {
     try {
-      const response = await clerkClient.users.updateUser(clerkId, {
+      const response = await this.client.users.updateUser(clerkId, {
         firstName: userData.name,
         lastName: userData.surname,
       });
@@ -60,7 +71,7 @@ export class ClerkService {
     updateUserCredentials: UpdateUserCredentialsDto,
   ) {
     try {
-      const isPasswordIsVerify = await clerkClient.users.verifyPassword({
+      const isPasswordIsVerify = await this.client.users.verifyPassword({
         userId: updateUserCredentials.clerkId,
         password: updateUserCredentials.oldPassword,
       });
@@ -68,7 +79,7 @@ export class ClerkService {
       if (!isPasswordIsVerify) {
         throw new BadRequestException('Ancien mot de passe incorrect');
       } else {
-        const response = await clerkClient.users.updateUser(
+        const response = await this.client.users.updateUser(
           updateUserCredentials.clerkId,
           {
             password: updateUserCredentials.password,
@@ -99,7 +110,7 @@ export class ClerkService {
     }
 
     try {
-      const response = await clerkClient.users.getUser(userData.clerkId);
+      const response = await this.client.users.getUser(userData.clerkId);
       return response;
     } catch (error) {
       console.error('Erreur Clerk:', error.response?.data || error.message);
@@ -111,7 +122,7 @@ export class ClerkService {
 
   async deleteClerkUser(id: string) {
     try {
-      const response = await clerkClient.users.deleteUser(id);
+      const response = await this.client.users.deleteUser(id);
       return response;
     } catch (error) {
       console.error('Erreur Clerk:', error.response?.data || error.message);
