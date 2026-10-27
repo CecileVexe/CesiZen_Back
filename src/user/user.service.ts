@@ -14,7 +14,7 @@ import {
 } from './dto/update-user.dto';
 import { PrismaService } from 'src/prisma.service';
 import { ClerkService } from 'src/auth/clerk.service';
-import { User } from '@clerk/clerk-sdk-node';
+import { User } from '@clerk/backend';
 
 @Injectable()
 export class UserService {
